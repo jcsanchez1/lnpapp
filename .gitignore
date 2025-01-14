@@ -1,0 +1,21 @@
+# Django-specific
+.DS_Store
+*.pyc
+*.pyo
+__pycache__/
+.pytest_cache
+media/
+local_settings.py
+
+# Virtual environment
+venv/
+env/
+
+# Other common patterns
+*.egg-info/
+.tox/
+.mypy_cache/
+build/
+dist/
+*.log
+*.swp
