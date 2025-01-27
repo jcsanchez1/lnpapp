@@ -1,0 +1,242 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Dashboard - Sistema de Gestión de Muestras{% endblock %}
+
+{% block extracss %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
+        <p>{{ request.session.centro_nombre }}</p>
+    </div>
+</div>
+
+<!-- Widgets Estadísticos -->
+<div class="row">
+    <div class="col-md-6 col-lg-3">
+        <div class="widget-small primary"><i class="icon fa fa-users fa-3x"></i>
+            <div class="info">
+                <h4>Expedientes</h4>
+                <p><b>{{ total_expedientes }}</b></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="widget-small info"><i class="icon fa fa-files-o fa-3x"></i>
+            <div class="info">
+                <h4>Total Muestras</h4>
+                <p><b>{{ total_muestras }}</b></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="widget-small warning"><i class="icon fa fa-clock-o fa-3x"></i>
+            <div class="info">
+                <h4>Hoy</h4>
+                <p><b>{{ muestras_hoy }}</b></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="widget-small danger"><i class="icon fa fa-warning fa-3x"></i>
+            <div class="info">
+                <h4>Positivas</h4>
+                <p><b>{{ muestras_positivas }}</b></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if request.session.is_lnp %}
+<!-- Filtros LNP -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="tile">
+            <div class="tile-title-w-btn">
+                <h3 class="title">Filtrar</h3>
+            </div>
+            <div class="tile-body">
+                <select id="regionFilter" class="form-control mb-2">
+                    <option value="">Todas las regiones</option>
+                    {% for region in regiones %}
+                    <option value="{{ region.id }}">{{ region.nombre }}</option>
+                    {% endfor %}
+                </select>
+                <select id="centroFilter" class="form-control">
+                    <option value="">Todos los centros</option>
+                    {% for centro in centros %}
+                    <option value="{{ centro.id }}">{{ centro.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Gráficos -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="tile">
+            <h3 class="tile-title">Distribución de Parásitos</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+                <canvas class="embed-responsive-item" id="parasiteChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="tile">
+            <h3 class="tile-title">Tendencia Mensual</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+                <canvas class="embed-responsive-item" id="monthlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <h3 class="tile-title">Distribución por Edad</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+                <canvas class="embed-responsive-item" id="ageChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabla de Muestras Recientes -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <h3 class="tile-title">Muestras Recientes</h3>
+            <div class="tile-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>DNI</th>
+                                <th>Paciente</th>
+                                <th>Edad</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for muestra in muestras_recientes %}
+                            <tr>
+                                <td>{{ muestra.fecha }}</td>
+                                <td>{{ muestra.Expediente.dni }}</td>
+                                <td>{{ muestra.Expediente.nombre }} {{ muestra.Expediente.apellido }}</td>
+                                <td>{{ muestra.Edad }}</td>
+                                <td>
+                                    {% if muestra.No_se_observaron_parásitos %}
+                                    <span class="badge badge-success">Negativo</span>
+                                    {% else %}
+                                    <span class="badge badge-danger">Positivo</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'muestra_detail' muestra.id %}" class="btn btn-info btn-sm">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+<script src="{% static 'js/plugins/chart.min.js' %}"></script>
+<script src="{% static 'js/plugins/datatables.min.js' %}"></script>
+<script>
+$(document).ready(function() {
+    // Configuración de DataTables
+    $('#sampleTable').DataTable({
+        language: {
+            url: "{% static 'js/plugins/dataTables.spanish.json' %}"
+        }
+    });
+
+    // Configuración de gráficos
+    const parasiteData = {{ parasite_data|safe }};
+    const monthlyData = {{ monthly_data|safe }};
+    const ageData = {{ age_data|safe }};
+
+    // Gráfico de parásitos
+    new Chart(document.getElementById('parasiteChart'), {
+        type: 'bar',
+        data: {
+            labels: Object.keys(parasiteData),
+            datasets: [{
+                label: 'Casos',
+                data: Object.values(parasiteData),
+                backgroundColor: '#4e73df'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Gráfico mensual
+    new Chart(document.getElementById('monthlyChart'), {
+        type: 'line',
+        data: {
+            labels: Object.keys(monthlyData),
+            datasets: [{
+                label: 'Total',
+                data: Object.values(monthlyData).map(d => d.total),
+                borderColor: '#1cc88a'
+            }, {
+                label: 'Positivos',
+                data: Object.values(monthlyData).map(d => d.positive),
+                borderColor: '#e74a3b'
+            }]
+        }
+    });
+
+    // Gráfico de edades
+    new Chart(document.getElementById('ageChart'), {
+        type: 'bar',
+        data: {
+            labels: Object.keys(ageData),
+            datasets: [{
+                label: 'Pacientes',
+                data: Object.values(ageData),
+                backgroundColor: '#36b9cc'
+            }]
+        }
+    });
+
+    {% if request.session.is_lnp %}
+    // Manejo de filtros para LNP
+    $('#regionFilter, #centroFilter').change(function() {
+        $.get('{% url "dashboard_data" %}', {
+            region_id: $('#regionFilter').val(),
+            centro_id: $('#centroFilter').val()
+        }, function(data) {
+            // Actualizar gráficos con nuevos datos
+            updateCharts(data);
+        });
+    });
+    {% endif %}
+});
+</script>
+{% endblock %}

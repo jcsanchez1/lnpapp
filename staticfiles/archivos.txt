@@ -1,0 +1,280 @@
+ Volume in drive C is Windows
+ Volume Serial Number is 92D5-D0E9
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles
+
+25/01/2025  11:01    <DIR>          .
+25/01/2025  10:59    <DIR>          ..
+25/01/2025  09:51    <DIR>          admin
+25/01/2025  11:01                 0 archivos.txt
+25/01/2025  09:57    <DIR>          css
+25/01/2025  09:57    <DIR>          img
+25/01/2025  09:57    <DIR>          js
+               1 File(s)              0 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  11:01    <DIR>          ..
+25/01/2025  09:51    <DIR>          css
+25/01/2025  09:51    <DIR>          img
+25/01/2025  09:51    <DIR>          js
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\css
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51             9,185 autocomplete.css
+25/01/2025  09:51            22,092 base.css
+25/01/2025  09:51             6,878 changelists.css
+25/01/2025  09:51             2,804 dark_mode.css
+25/01/2025  09:51               441 dashboard.css
+25/01/2025  09:51             8,794 forms.css
+25/01/2025  09:51               951 login.css
+25/01/2025  09:51             2,810 nav_sidebar.css
+25/01/2025  09:51            17,972 responsive.css
+25/01/2025  09:51             2,544 responsive_rtl.css
+25/01/2025  09:51             4,696 rtl.css
+25/01/2025  09:51               663 unusable_password_field.css
+25/01/2025  09:51    <DIR>          vendor
+25/01/2025  09:51            11,564 widgets.css
+              13 File(s)         91,394 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\css\vendor
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51    <DIR>          select2
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\css\vendor\select2
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51             1,124 LICENSE-SELECT2.md
+25/01/2025  09:51            17,358 select2.css
+25/01/2025  09:51            14,966 select2.min.css
+               3 File(s)         33,448 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\img
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51             2,455 calendar-icons.svg
+25/01/2025  09:51    <DIR>          gis
+25/01/2025  09:51               331 icon-addlink.svg
+25/01/2025  09:51               504 icon-alert.svg
+25/01/2025  09:51             1,086 icon-calendar.svg
+25/01/2025  09:51               380 icon-changelink.svg
+25/01/2025  09:51               677 icon-clock.svg
+25/01/2025  09:51               392 icon-deletelink.svg
+25/01/2025  09:51               784 icon-hidelink.svg
+25/01/2025  09:51               560 icon-no.svg
+25/01/2025  09:51               655 icon-unknown-alt.svg
+25/01/2025  09:51               655 icon-unknown.svg
+25/01/2025  09:51               581 icon-viewlink.svg
+25/01/2025  09:51               436 icon-yes.svg
+25/01/2025  09:51               560 inline-delete.svg
+25/01/2025  09:51             1,081 LICENSE
+25/01/2025  09:51               321 README.txt
+25/01/2025  09:51               458 search.svg
+25/01/2025  09:51             3,291 selector-icons.svg
+25/01/2025  09:51             1,097 sorting-icons.svg
+25/01/2025  09:51               331 tooltag-add.svg
+25/01/2025  09:51               280 tooltag-arrowright.svg
+              21 File(s)         16,915 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\img\gis
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51             1,129 move_vertex_off.svg
+25/01/2025  09:51             1,129 move_vertex_on.svg
+               2 File(s)          2,258 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\js
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51             8,076 actions.js
+25/01/2025  09:51    <DIR>          admin
+25/01/2025  09:51             1,060 autocomplete.js
+25/01/2025  09:51             9,141 calendar.js
+25/01/2025  09:51               884 cancel.js
+25/01/2025  09:51               606 change_form.js
+25/01/2025  09:51             6,208 core.js
+25/01/2025  09:51               978 filters.js
+25/01/2025  09:51            15,526 inlines.js
+25/01/2025  09:51               347 jquery.init.js
+25/01/2025  09:51             3,063 nav_sidebar.js
+25/01/2025  09:51               532 popup_response.js
+25/01/2025  09:51             1,531 prepopulate.js
+25/01/2025  09:51               586 prepopulate_init.js
+25/01/2025  09:51             4,530 SelectBox.js
+25/01/2025  09:51            15,502 SelectFilter2.js
+25/01/2025  09:51             1,653 theme.js
+25/01/2025  09:51             1,480 unusable_password_field.js
+25/01/2025  09:51             7,887 urlify.js
+25/01/2025  09:51    <DIR>          vendor
+              18 File(s)         79,590 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\js\admin
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51            19,319 DateTimeShortcuts.js
+25/01/2025  09:51             9,097 RelatedObjectLookups.js
+               2 File(s)         28,416 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\js\vendor
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51    <DIR>          jquery
+25/01/2025  09:51    <DIR>          select2
+25/01/2025  09:51    <DIR>          xregexp
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\js\vendor\jquery
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51           285,314 jquery.js
+25/01/2025  09:51            87,533 jquery.min.js
+25/01/2025  09:51             1,097 LICENSE.txt
+               3 File(s)        373,944 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\js\vendor\select2
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51    <DIR>          i18n
+25/01/2025  09:51             1,124 LICENSE.md
+25/01/2025  09:51           173,566 select2.full.js
+25/01/2025  09:51            79,212 select2.full.min.js
+               3 File(s)        253,902 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\js\vendor\select2\i18n
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51               866 af.js
+25/01/2025  09:51               905 ar.js
+25/01/2025  09:51               721 az.js
+25/01/2025  09:51               968 bg.js
+25/01/2025  09:51             1,291 bn.js
+25/01/2025  09:51               965 bs.js
+25/01/2025  09:51               900 ca.js
+25/01/2025  09:51             1,292 cs.js
+25/01/2025  09:51               828 da.js
+25/01/2025  09:51               866 de.js
+25/01/2025  09:51             1,017 dsb.js
+25/01/2025  09:51             1,182 el.js
+25/01/2025  09:51               844 en.js
+25/01/2025  09:51               922 es.js
+25/01/2025  09:51               801 et.js
+25/01/2025  09:51               868 eu.js
+25/01/2025  09:51             1,023 fa.js
+25/01/2025  09:51               803 fi.js
+25/01/2025  09:51               924 fr.js
+25/01/2025  09:51               924 gl.js
+25/01/2025  09:51               984 he.js
+25/01/2025  09:51             1,175 hi.js
+25/01/2025  09:51               852 hr.js
+25/01/2025  09:51             1,018 hsb.js
+25/01/2025  09:51               831 hu.js
+25/01/2025  09:51             1,028 hy.js
+25/01/2025  09:51               768 id.js
+25/01/2025  09:51               807 is.js
+25/01/2025  09:51               897 it.js
+25/01/2025  09:51               862 ja.js
+25/01/2025  09:51             1,195 ka.js
+25/01/2025  09:51             1,088 km.js
+25/01/2025  09:51               855 ko.js
+25/01/2025  09:51               944 lt.js
+25/01/2025  09:51               900 lv.js
+25/01/2025  09:51             1,038 mk.js
+25/01/2025  09:51               811 ms.js
+25/01/2025  09:51               778 nb.js
+25/01/2025  09:51             1,357 ne.js
+25/01/2025  09:51               904 nl.js
+25/01/2025  09:51               947 pl.js
+25/01/2025  09:51             1,049 ps.js
+25/01/2025  09:51               876 pt-BR.js
+25/01/2025  09:51               878 pt.js
+25/01/2025  09:51               938 ro.js
+25/01/2025  09:51             1,171 ru.js
+25/01/2025  09:51             1,306 sk.js
+25/01/2025  09:51               925 sl.js
+25/01/2025  09:51               903 sq.js
+25/01/2025  09:51             1,109 sr-Cyrl.js
+25/01/2025  09:51               980 sr.js
+25/01/2025  09:51               786 sv.js
+25/01/2025  09:51             1,074 th.js
+25/01/2025  09:51               771 tk.js
+25/01/2025  09:51               775 tr.js
+25/01/2025  09:51             1,156 uk.js
+25/01/2025  09:51               796 vi.js
+25/01/2025  09:51               768 zh-CN.js
+25/01/2025  09:51               707 zh-TW.js
+              59 File(s)         55,917 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\admin\js\vendor\xregexp
+
+25/01/2025  09:51    <DIR>          .
+25/01/2025  09:51    <DIR>          ..
+25/01/2025  09:51             1,106 LICENSE.txt
+25/01/2025  09:51           325,171 xregexp.js
+25/01/2025  09:51           163,184 xregexp.min.js
+               3 File(s)        489,461 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\css
+
+25/01/2025  09:57    <DIR>          .
+25/01/2025  11:01    <DIR>          ..
+15/03/2020  00:42           359,895 main.css
+               1 File(s)        359,895 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\img
+
+25/01/2025  09:57    <DIR>          .
+25/01/2025  11:01    <DIR>          ..
+06/08/2024  13:14           164,798 logolnv256.ico
+               1 File(s)        164,798 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\js
+
+25/01/2025  09:57    <DIR>          .
+25/01/2025  11:01    <DIR>          ..
+15/03/2020  00:42            58,072 bootstrap.min.js
+15/03/2020  00:42            86,927 jquery-3.3.1.min.js
+15/03/2020  00:42               719 main.js
+25/01/2025  09:57    <DIR>          plugins
+15/03/2020  00:42            20,972 popper.min.js
+               4 File(s)        166,690 bytes
+
+ Directory of C:\Users\juanc\OneDrive\GitHub\lnpAPP\staticfiles\js\plugins
+
+25/01/2025  09:57    <DIR>          .
+25/01/2025  09:57    <DIR>          ..
+15/03/2020  00:42            32,025 bootstrap-datepicker.min.js
+15/03/2020  00:42             8,118 bootstrap-notify.min.js
+15/03/2020  00:42           109,482 chart.js
+15/03/2020  00:42             2,070 dataTables.bootstrap.min.js
+15/03/2020  00:42           121,518 dropzone.js
+15/03/2020  00:42           102,800 fullcalendar.min.js
+15/03/2020  00:42            32,591 jquery-ui.custom.min.js
+15/03/2020  00:42            81,906 jquery.dataTables.min.js
+15/03/2020  00:42            20,981 jquery.vmap.min.js
+15/03/2020  00:42             2,386 jquery.vmap.sampledata.js
+15/03/2020  00:42            60,599 jquery.vmap.world.js
+15/03/2020  00:42            34,737 moment.min.js
+15/03/2020  00:42            12,552 pace.min.js
+15/03/2020  00:42            66,606 select2.min.js
+15/03/2020  00:42            16,977 sweetalert.min.js
+              15 File(s)        705,348 bytes
+
+     Total Files Listed:
+             149 File(s)      2,821,976 bytes
+              53 Dir(s)  322,800,377,856 bytes free

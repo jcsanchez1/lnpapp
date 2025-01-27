@@ -1,0 +1,70 @@
+<!-- region_list.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="row">
+   {% for region in object_list %}
+   <div class="col-md-6">
+       <div class="tile">
+           <h3 class="tile-title">{{ region.nombre }}</h3>
+           <div class="tile-body">
+               <h4>Centros de Atención</h4>
+               <ul class="list-group">
+                   {% for centro in region.centros_atencion.all %}
+                   <li class="list-group-item">
+                       <a href="#" data-toggle="modal" data-target="#centroModal{{ centro.id }}">
+                           {{ centro.nombre }}
+                       </a>
+                   </li>
+                   {% endfor %}
+               </ul>
+           </div>
+       </div>
+   </div>
+   {% endfor %}
+</div>
+
+{% for region in object_list %}
+   {% for centro in region.centros_atencion.all %}
+   <div class="modal fade" id="centroModal{{ centro.id }}" tabindex="-1">
+       <div class="modal-dialog modal-lg">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">{{ centro.nombre }}</h5>
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+               </div>
+               <div class="modal-body">
+                   <table class="table table-hover" id="centroTable{{ centro.id }}">
+                       <thead>
+                           <tr>
+                               <th>Fecha</th>
+                               <th>DNI</th>
+                               <th>Paciente</th>
+                               <th>Edad</th>
+                               <th>Estado</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           {% for muestra in centro.profile_set.all %}
+                           <tr>
+                               <td>{{ muestra.fecha }}</td>
+                               <td>{{ muestra.Expediente.dni }}</td>
+                               <td>{{ muestra.Expediente.nombre }} {{ muestra.Expediente.apellido }}</td>
+                               <td>{{ muestra.Edad }}</td>
+                               <td>
+                                   {% if muestra.No_se_observaron_parásitos %}
+                                   <span class="badge badge-success">Negativo</span>
+                                   {% else %}
+                                   <span class="badge badge-danger">Positivo</span>
+                                   {% endif %}
+                               </td>
+                           </tr>
+                           {% endfor %}
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+       </div>
+   </div>
+   {% endfor %}
+{% endfor %}
+{% endblock %}

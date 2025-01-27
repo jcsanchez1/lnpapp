@@ -1,0 +1,46 @@
+<!-- muestra_list.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="tile">
+   <div class="tile-body">
+       <table class="table table-hover table-bordered" id="muestraTable">
+           <thead>
+               <tr>
+                   <th>Fecha</th>
+                   <th>DNI</th>
+                   <th>Paciente</th>
+                   <th>Edad</th>
+                   <th>Centro</th>
+                   <th>Usuario</th>
+                   <th>Estado</th>
+                   <th>Acciones</th>
+               </tr>
+           </thead>
+           <tbody>
+               {% for muestra in object_list %}
+               <tr>
+                   <td>{{ muestra.fecha }}</td>
+                   <td>{{ muestra.Expediente.dni }}</td>
+                   <td>{{ muestra.Expediente.nombre }} {{ muestra.Expediente.apellido }}</td>
+                   <td>{{ muestra.Edad }}</td>
+                   <td>{{ muestra.Expediente.profile.centro_atencion.nombre }}</td>
+                   <td>{{ muestra.Expediente.profile.user.username }}</td>
+                   <td>
+                       {% if muestra.No_se_observaron_parásitos %}
+                       <span class="badge badge-success">Negativo</span>
+                       {% else %}
+                       <span class="badge badge-danger">Positivo</span>
+                       {% endif %}
+                   </td>
+                   <td>
+                       <a href="{% url 'muestra_detail' muestra.id %}" class="btn btn-info btn-sm">
+                           <i class="fa fa-eye"></i>
+                       </a>
+                   </td>
+               </tr>
+               {% endfor %}
+           </tbody>
+       </table>
+   </div>
+</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta name="description" content="Sistema de Gestión de Muestras">
+    <title>{% block title %}Sistema de Gestión de Muestras{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Main CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% block extracss %}{% endblock %}
+  </head>
+  <body class="app sidebar-mini">
+    <!-- Navbar-->
+    <header class="app-header">
+      <a class="app-header__logo" href="{% url 'dashboard' %}">SGM</a>
+      <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+      <ul class="app-nav">
+        <li class="dropdown">
+          <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+            <i class="fa fa-user fa-lg"></i> {{ request.user.get_full_name|default:request.user.username }}
+          </a>
+          <ul class="dropdown-menu settings-menu dropdown-menu-right">
+            <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out fa-lg"></i> Cerrar Sesión</a></li>
+          </ul>
+        </li>
+      </ul>
+    </header>
+    
+    <!-- Sidebar menu-->
+    <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    <aside class="app-sidebar">
+      <div class="app-sidebar__user">
+        <div>
+          <p class="app-sidebar__user-name">{{ request.user.get_full_name|default:request.user.username }}</p>
+          <p class="app-sidebar__user-designation">{{ request.session.centro_nombre }}</p>
+        </div>
+      </div>
+      <ul class="app-menu">
+        <li>
+          <a class="app-menu__item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" 
+             href="{% url 'dashboard' %}">
+            <i class="app-menu__icon fa fa-dashboard"></i>
+            <span class="app-menu__label">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a class="app-menu__item {% if request.resolver_match.url_name == 'expediente_list' %}active{% endif %}" 
+             href="{% url 'expediente_list' %}">
+            <i class="app-menu__icon fa fa-users"></i>
+            <span class="app-menu__label">Expedientes</span>
+          </a>
+        </li>
+        <li>
+          <a class="app-menu__item {% if request.resolver_match.url_name == 'muestra_list' %}active{% endif %}" 
+             href="{% url 'muestra_list' %}">
+            <i class="app-menu__icon fa fa-files-o"></i>
+            <span class="app-menu__label">Muestras</span>
+          </a>
+        </li>
+        {% if request.session.is_lnp %}
+        <li>
+          <a class="app-menu__item {% if request.resolver_match.url_name == 'reportes' %}active{% endif %}" 
+             href="{% url 'reportes' %}">
+            <i class="app-menu__icon fa fa-bar-chart"></i>
+            <span class="app-menu__label">Reportes</span>
+          </a>
+        </li>
+        <li>
+          <a class="app-menu__item {% if request.resolver_match.url_name == 'centros' %}active{% endif %}" 
+             href="{% url 'centros' %}">
+            <i class="app-menu__icon fa fa-hospital-o"></i>
+            <span class="app-menu__label">Centros</span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </aside>
+
+    <main class="app-content">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+      {% endif %}
+      
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Essential javascripts -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/plugins/pace.min.js' %}"></script>
+    {% block extrajs %}{% endblock %}
+  </body>
+</html>

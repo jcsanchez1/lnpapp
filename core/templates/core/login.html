@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+   <title>LNV- Laboratorio Nacional de Parasitologia</title>
+ </head>
+ <body>
+   <section class="material-half-bg">
+     <div class="cover"></div>
+   </section>
+   <section class="login-content">
+     <div class="logo">
+       <img src="{% static 'img/logolnv256.png' %}" alt="logo">
+     </div>
+     <div class="login-box">
+       <form class="login-form" method="post">
+         {% csrf_token %}
+         <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Ingresar</h3>
+         {% if form.errors %}
+         <div class="alert alert-danger">
+           Usuario o contraseña incorrectos  
+         </div>
+         {% endif %}
+         <div class="form-group">
+           <label class="control-label">USUARIO</label>
+           <input name="username" class="form-control" type="text" autofocus>
+         </div>
+         <div class="form-group">
+           <label class="control-label">CONTRASEÑA</label>
+           <input name="password" class="form-control" type="password">
+         </div>
+         <div class="form-group btn-container">
+           <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>INGRESAR</button>
+         </div>
+       </form>
+     </div>
+   </section>
+   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+   <script src="{% static 'js/popper.min.js' %}"></script>
+   <script src="{% static 'js/bootstrap.min.js' %}"></script>
+   <script src="{% static 'js/main.js' %}"></script>
+   <script src="{% static 'js/plugins/pace.min.js' %}"></script>
+ </body>
+</html>
