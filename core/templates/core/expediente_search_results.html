@@ -1,0 +1,25 @@
+<!-- expediente_search_results.html -->
+{% if no_results %}
+    <div class="alert alert-info">
+        No se encontraron expedientes con DNI: {{ dni_buscado }}
+        <a href="#" class="btn btn-link" onclick="$('#expedienteTab a[href=\'#createTab\']').tab('show')">
+            Crear nuevo expediente
+        </a>
+    </div>
+{% else %}
+    <div class="list-group">
+        {% for expediente in expedientes %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1">{{ expediente.nombre }} {{ expediente.apellido }}</h5>
+                        <p class="mb-1">DNI: {{ expediente.dni }}</p>
+                    </div>
+                    <a href="{% url 'muestra_create' expediente.id %}" class="btn btn-primary">
+                        Crear Muestra
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

@@ -1,0 +1,19 @@
+<!-- expediente_search_results.html -->
+{% if expedientes %}
+    <div class="list-group">
+    {% for expediente in expedientes %}
+        <a href="{% url 'muestra_create' expediente.id %}" class="list-group-item list-group-item-action">
+            {{ expediente.dni }} - {{ expediente.nombre }} {{ expediente.apellido }}
+        </a>
+    {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        No se encontraron expedientes. <a href="#" data-toggle="tab" data-target="#createTab">Crear nuevo</a>
+    </div>
+{% endif %}
+
+<!-- muestra_actions.html -->
+<a href="{% url 'muestra_detail' muestra.id %}" class="btn btn-info btn-sm">
+    <i class="fa fa-eye"></i>
+</a>
