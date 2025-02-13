@@ -112,6 +112,7 @@ class Muestra(models.Model):
         ('P', 'Proglotidos'),
         ('N', 'No se observa'),
     ]
+    CentroAtencion = models.ForeignKey(CentroAtencion, on_delete=models.PROTECT, related_name='muestras', default=1)
     fecha = models.DateField(auto_now_add=True)
     Expediente = models.ForeignKey(Expediente, on_delete=models.PROTECT, related_name='muestras')
     Edad = models.IntegerField()

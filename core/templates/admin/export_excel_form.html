@@ -1,0 +1,54 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+
+{% block content %}
+<div id="content-main">
+    <div class="module">
+        <h2>Exportar Reporte de Muestras a Excel</h2>
+        <div class="description">
+            Seleccione el rango de fechas para generar el reporte Excel con todas las muestras en ese período.
+        </div>
+        
+        <form method="post" class="aligned">
+            {% csrf_token %}
+            <fieldset class="module aligned">
+                <div class="form-row field-fecha_inicio">
+                    <div>
+                        <label for="fecha_inicio" class="required">Fecha Inicio:</label>
+                        <input type="date" name="fecha_inicio" required class="vDateField">
+                        <p class="help">Seleccione la fecha inicial del período</p>
+                    </div>
+                </div>
+                
+                <div class="form-row field-fecha_fin">
+                    <div>
+                        <label for="fecha_fin" class="required">Fecha Fin:</label>
+                        <input type="date" name="fecha_fin" required class="vDateField">
+                        <p class="help">Seleccione la fecha final del período</p>
+                    </div>
+                </div>
+            </fieldset>
+            
+            <div class="submit-row">
+                <input type="submit" value="Generar Excel" class="default" name="_export">
+                <a href="{% url 'admin:index' %}" class="closelink">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.module h2 {
+    background: #79aec8;
+    padding: 8px;
+    color: white;
+    font-size: 14px;
+}
+.description {
+    padding: 12px;
+    margin-bottom: 20px;
+    background: #f8f8f8;
+    border: 1px solid #eee;
+}
+</style>
+{% endblock %}

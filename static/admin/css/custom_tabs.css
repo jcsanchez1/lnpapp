@@ -1,0 +1,73 @@
+/* static/admin/css/custom_tabs.css */
+
+.tab-navigation {
+    border-bottom: 1px solid #eee;
+    margin: 0 -20px 20px;
+    padding: 0 20px;
+}
+
+.tab-navigation ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tab-navigation li {
+    margin-right: 4px;
+}
+
+.tab-navigation a {
+    display: block;
+    padding: 8px 16px;
+    border: 1px solid #eee;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    color: #666;
+    text-decoration: none;
+    background: #f8f8f8;
+}
+
+.tab-navigation a.active {
+    background: white;
+    color: #447e9b;
+    border-bottom: 1px solid white;
+    margin-bottom: -1px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Estilos para grupos de campos */
+.field-box {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    background: #f8f8f8;
+}
+
+/* Colores específicos para cada tipo de grupo */
+.tab-amebas .field-box {
+    border-left: 3px solid #4CAF50;
+}
+
+.tab-flagelados .field-box {
+    border-left: 3px solid #2196F3;
+}
+
+.tab-coccidios .field-box {
+    border-left: 3px solid #9C27B0;
+}
+
+.tab-nematodos .field-box {
+    border-left: 3px solid #FF9800;
+}
+
+.tab-cestodos .field-box {
+    border-left: 3px solid #F44336;
+}

@@ -51,105 +51,97 @@ class CustomLoginView(LoginView):
             return redirect('login')
 
 class DashboardView(LoginRequiredMixin, TemplateView):
-    template_name = 'core/dashboard.html'
-    
-    def get_data(self, muestras):
-        # Estadísticas de parásitos
-        parasite_fields = [
-            'Entamoeba_histolytica', 'Entamoeba_coli', 'Giardia_intestinalis',
-            'Blastocystis_sp', 'Ascaris_lumbricoides', 'Trichuris_trichiura'
-        ]
-        
-        parasite_counts = {
-            field.replace('_', ' '): muestras.filter(
-                **{f"{field}__in": ['T', 'Q', 'TQ', 'O', 'L', 'H', 'G', 'P']}
-            ).count()
-            for field in parasite_fields
-        }
+   template_name = 'core/dashboard.html'
+   
+   def get_data(self, muestras):
+       parasite_fields = [
+           'Entamoeba_histolytica', 'Entamoeba_coli', 'Giardia_intestinalis',
+           'Blastocystis_sp', 'Ascaris_lumbricoides', 'Trichuris_trichiura'
+       ]
+       
+       parasite_counts = {
+           field.replace('_', ' '): muestras.filter(
+               **{f"{field}__in": ['T', 'Q', 'TQ', 'O', 'L', 'H', 'G', 'P']}
+           ).count()
+           for field in parasite_fields
+       }
 
-        # Datos mensuales
-        last_6_months = timezone.now() - timedelta(days=180)
-        monthly_data = defaultdict(lambda: {'total': 0, 'positive': 0})
-        
-        for muestra in muestras.filter(fecha__gte=last_6_months):
-            month_key = muestra.fecha.strftime('%Y-%m')
-            monthly_data[month_key]['total'] += 1
-            if not muestra.No_se_observaron_parásitos:
-                monthly_data[month_key]['positive'] += 1
+       last_6_months = timezone.now() - timedelta(days=180)
+       monthly_data = defaultdict(lambda: {'total': 0, 'positive': 0})
+       
+       for muestra in muestras.filter(fecha__gte=last_6_months):
+           month_key = muestra.fecha.strftime('%Y-%m')
+           monthly_data[month_key]['total'] += 1
+           if not muestra.No_se_observaron_parásitos:
+               monthly_data[month_key]['positive'] += 1
 
-        # Distribución por edad
-        age_ranges = [(0, 5), (6, 12), (13, 18), (19, 30), (31, 50), (51, 100)]
-        age_distribution = defaultdict(int)
-        
-        for muestra in muestras:
-            for start, end in age_ranges:
-                if start <= muestra.Edad <= end:
-                    age_distribution[f"{start}-{end} años"] += 1
-                    break
+       age_ranges = [(0, 5), (6, 12), (13, 18), (19, 30), (31, 50), (51, 100)]
+       age_distribution = defaultdict(int)
+       
+       for muestra in muestras:
+           for start, end in age_ranges:
+               if start <= muestra.Edad <= end:
+                   age_distribution[f"{start}-{end} años"] += 1
+                   break
 
-        return {
-            'parasite_data': parasite_counts,
-            'monthly_data': dict(monthly_data),
-            'age_data': dict(age_distribution)
-        }
+       return {
+           'parasite_data': parasite_counts,
+           'monthly_data': dict(monthly_data),
+           'age_data': dict(age_distribution)
+       }
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        is_lnp = self.request.session.get('is_lnp', False)
-        centro_id = self.request.session.get('centro_id')
+   def get_context_data(self, **kwargs):
+       context = super().get_context_data(**kwargs)
+       is_lnp = self.request.session.get('is_lnp', False)
+       centro_id = self.request.session.get('centro_id')
 
-        if is_lnp:
-            muestras = Muestra.objects.all()
-            expedientes = Expediente.objects.all()
-            context.update({
-                'regiones': Region.objects.all(),
-                'centros': CentroAtencion.objects.all()
-            })
-        else:
-            muestras = Muestra.objects.filter(
-                expediente__profile__centro_atencion_id=centro_id
-            )
-            expedientes = Expediente.objects.filter(
-                muestras__expediente__profile__centro_atencion_id=centro_id
-            ).distinct()
+       if is_lnp:
+           muestras = Muestra.objects.all()
+           expedientes = Expediente.objects.all()
+           context.update({
+               'regiones': Region.objects.all(),
+               'centros': CentroAtencion.objects.all()
+           })
+       else:
+           muestras = Muestra.objects.filter(CentroAtencion_id=centro_id)
+           expedientes = Expediente.objects.filter(
+               muestras__CentroAtencion_id=centro_id
+           ).distinct()
 
-        data = self.get_data(muestras)
-        context.update({
-            'total_expedientes': expedientes.count(),
-            'total_muestras': muestras.count(),
-            'muestras_hoy': muestras.filter(fecha=timezone.now().date()).count(),
-            'muestras_positivas': muestras.filter(No_se_observaron_parásitos=False).count(),
-            'parasite_data': json.dumps(data['parasite_data']),
-            'monthly_data': json.dumps(data['monthly_data']),
-            'age_data': json.dumps(data['age_data']),
-            'muestras_recientes': muestras.order_by('-fecha')[:10]
-        })
+       data = self.get_data(muestras)
+       context.update({
+           'total_expedientes': expedientes.count(),
+           'total_muestras': muestras.count(),
+           'muestras_hoy': muestras.filter(fecha=timezone.now().date()).count(),
+           'muestras_positivas': muestras.filter(No_se_observaron_parásitos=False).count(),
+           'parasite_data': json.dumps(data['parasite_data']),
+           'monthly_data': json.dumps(data['monthly_data']),
+           'age_data': json.dumps(data['age_data']),
+           'muestras_recientes': muestras.order_by('-fecha')[:10]
+       })
 
-        return context
+       return context
 
 def dashboard_data(request):
-    """API endpoint para filtrar datos del dashboard"""
-    is_lnp = request.session.get('is_lnp', False)
-    if not is_lnp:
-        return JsonResponse({'error': 'No autorizado'}, status=403)
+   is_lnp = request.session.get('is_lnp', False)
+   if not is_lnp:
+       return JsonResponse({'error': 'No autorizado'}, status=403)
 
-    region_id = request.GET.get('region_id')
-    centro_id = request.GET.get('centro_id')
-    
-    # Aplicar filtros
-    filters = Q()
-    if region_id:
-        filters &= Q(expediente__profile__centro_atencion__region_id=region_id)
-    if centro_id:
-        filters &= Q(expediente__profile__centro_atencion_id=centro_id)
-        
-    muestras = Muestra.objects.filter(filters)
-    
-    view = DashboardView()
-    data = view.get_data(muestras)
-    
-    return JsonResponse(data)
-
+   region_id = request.GET.get('region_id')
+   centro_id = request.GET.get('centro_id')
+   
+   filters = Q()
+   if region_id:
+       filters &= Q(CentroAtencion__region_id=region_id)
+   if centro_id:
+       filters &= Q(CentroAtencion_id=centro_id)
+       
+   muestras = Muestra.objects.filter(filters)
+   
+   view = DashboardView()
+   data = view.get_data(muestras)
+   
+   return JsonResponse(data)
 #===============================================================================
 # views.py
 class ExpedienteListView(LoginRequiredMixin, ListView):
