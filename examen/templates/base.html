@@ -1,0 +1,638 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}LNP - Sistema de Gestión{% endblock %}</title>
+    
+    <!-- Framework LNV CSS -->
+    <link rel="stylesheet" href="{% static 'lnv-framework/css/lnv-framework.css' %}">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    {% block extra_css %}{% endblock %}
+    
+    <style>
+        /* === VARIABLES === */
+        :root {
+            --header-height: 70px;
+            --sidebar-width: 250px;
+            --lnv-primary: #7DD3E0;
+            --lnv-secondary: #4DB8AC;
+        }
+        
+        /* === RESET === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        
+        /* === HEADER === */
+        .lnv-header {
+            height: var(--header-height);
+            background: linear-gradient(135deg, var(--lnv-primary) 0%, var(--lnv-secondary) 100%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+        
+        .lnv-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .menu-toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: none; /* Oculto en desktop */
+        }
+        
+        .menu-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .lnv-header-logo {
+            height: 50px;
+            width: 50px;
+            object-fit: contain;
+            background: white;
+            padding: 6px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+        
+        .lnv-header-title {
+            color: white;
+        }
+        
+        .lnv-header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+        }
+        
+        .lnv-header-title p {
+            font-size: 0.8rem;
+            opacity: 0.95;
+            margin: 0;
+            font-weight: 400;
+        }
+        
+        .lnv-header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        /* === LAYOUT CON SIDEBAR === */
+        .app-wrapper {
+            display: flex;
+            flex: 1;
+            position: relative;
+        }
+        
+        /* === SIDEBAR === */
+        .lnv-sidebar {
+            width: var(--sidebar-width);
+            background: #ffffff;
+            border-right: 1px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            height: calc(100vh - var(--header-height));
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .lnv-sidebar-header {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid #e9ecef;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        
+        .user-info-sidebar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .user-avatar {
+            font-size: 2.5rem;
+            color: var(--lnv-primary);
+        }
+        
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .user-details strong {
+            font-size: 0.95rem;
+            color: #2c3e50;
+        }
+        
+        .user-details small {
+            font-size: 0.75rem;
+        }
+        
+        .region-badge, .centro-badge {
+            display: inline-block;
+            background: #e9ecef;
+            color: #495057;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin-top: 2px;
+        }
+        
+        .lnv-sidebar-nav {
+            flex: 1;
+            padding: 1rem 0;
+        }
+        
+        .lnv-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1.25rem;
+            color: #495057;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .lnv-nav-item:hover {
+            background: #f8f9fa;
+            color: var(--lnv-primary);
+            border-left-color: var(--lnv-primary);
+        }
+        
+        .lnv-nav-item.active {
+            background: linear-gradient(90deg, rgba(125, 211, 224, 0.1) 0%, transparent 100%);
+            color: var(--lnv-primary);
+            border-left-color: var(--lnv-primary);
+            font-weight: 600;
+        }
+        
+        .lnv-nav-item i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .lnv-nav-item span {
+            font-size: 0.9rem;
+        }
+        
+        .lnv-sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        /* === MAIN CONTENT === */
+        .lnv-main-wrapper {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex-direction: column;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .lnv-breadcrumb-wrapper {
+            background: #ffffff;
+            padding: 0.75rem 2rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .lnv-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            list-style: none;
+            font-size: 0.875rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .lnv-breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6c757d;
+        }
+        
+        .lnv-breadcrumb-item a {
+            color: var(--lnv-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .lnv-breadcrumb-item a:hover {
+            color: var(--lnv-secondary);
+            text-decoration: underline;
+        }
+        
+        .lnv-breadcrumb-item.active {
+            color: #495057;
+            font-weight: 600;
+        }
+        
+        .lnv-breadcrumb-separator {
+            color: #adb5bd;
+        }
+        
+        .lnv-main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* === OVERLAY (para móviles) === */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: 100%;
+            height: calc(100vh - var(--header-height));
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* === FOOTER === */
+        .lnv-footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #ffffff;
+            padding: 2rem;
+            margin-top: auto;
+        }
+        
+        .lnv-footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .lnv-footer-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .lnv-footer-logo-item {
+            text-align: center;
+        }
+        
+        .lnv-footer-logo {
+            height: 70px;
+            width: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            filter: brightness(0) invert(1);
+        }
+        
+        .lnv-footer-logo:hover {
+            transform: scale(1.1);
+            filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+        
+        .lnv-footer-logo-label {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+        
+        .lnv-footer-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+        
+        .lnv-footer-copyright {
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .lnv-footer-copyright i {
+            color: var(--lnv-primary);
+        }
+        
+        .lnv-footer-copyright p {
+            margin: 0.5rem 0;
+        }
+        
+        /* === RESPONSIVE === */
+        @media (max-width: 992px) {
+            .menu-toggle-btn {
+                display: block;
+            }
+            
+            .lnv-sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .lnv-sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .lnv-main-wrapper {
+                margin-left: 0;
+            }
+            
+            .lnv-header-title h1 {
+                font-size: 1rem;
+            }
+            
+            .lnv-header-title p {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .lnv-header {
+                padding: 0 1rem;
+            }
+            
+            .lnv-header-logo {
+                height: 40px;
+                width: 40px;
+            }
+            
+            .lnv-main-content {
+                padding: 1rem;
+            }
+            
+            .lnv-footer {
+                padding: 1.5rem 1rem;
+            }
+            
+            .lnv-footer-logos {
+                gap: 2rem;
+            }
+            
+            .lnv-footer-logo {
+                height: 55px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- === HEADER === -->
+    <header class="lnv-header">
+        <div class="lnv-header-left">
+            {% if user.is_authenticated %}
+            <!-- Botón hamburguesa (solo visible en móvil) -->
+            <button class="menu-toggle-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            {% endif %}
+            
+            <!-- Logo de la App -->
+            <img src="{% static 'img/logos/app-logo.png' %}" 
+                 alt="Logo LNP" 
+                 class="lnv-header-logo">
+            
+            <!-- Título -->
+            <div class="lnv-header-title">
+                <h1>Laboratorio Nacional de Parasitología</h1>
+                <p>Sistema de Gestión de Exámenes Parasitológicos</p>
+            </div>
+        </div>
+        
+        <div class="lnv-header-right">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="lnv-btn lnv-btn-sm lnv-btn-light" title="Dashboard">
+                    <i class="fas fa-home"></i>
+                </a>
+                <a href="{% url 'logout' %}" class="lnv-btn lnv-btn-sm lnv-btn-danger" title="Cerrar sesión">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            {% endif %}
+        </div>
+    </header>
+    
+    <!-- === WRAPPER (Sidebar + Contenido) === -->
+    {% if user.is_authenticated %}
+    <div class="app-wrapper">
+        <!-- Overlay para móviles -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        
+        <!-- Sidebar según rol -->
+        {% if user.profile.rol.nivel == 'LNP' %}
+            {% include 'partials/sidebar_lnp.html' %}
+        {% elif user.profile.rol.nivel == 'REG' %}
+            {% include 'partials/sidebar_reg.html' %}
+        {% elif user.profile.rol.nivel == 'CAT' %}
+            {% include 'partials/sidebar_cat.html' %}
+        {% endif %}
+        
+        <!-- Main Content Wrapper -->
+        <div class="lnv-main-wrapper">
+            <!-- Breadcrumb -->
+            {% block breadcrumb_wrapper %}
+            <div class="lnv-breadcrumb-wrapper">
+                <nav aria-label="breadcrumb">
+                    <ol class="lnv-breadcrumb">
+                        {% block breadcrumb %}
+                        <li class="lnv-breadcrumb-item">
+                            <a href="{% url 'dashboard' %}">
+                                <i class="fas fa-home"></i> Inicio
+                            </a>
+                        </li>
+                        {% endblock %}
+                    </ol>
+                </nav>
+            </div>
+            {% endblock %}
+            
+            <!-- Mensajes -->
+            {% if messages %}
+            <div style="padding: 1rem 2rem 0;">
+                {% for message in messages %}
+                <div class="lnv-alert lnv-alert-{{ message.tags|default:'info' }}" role="alert">
+                    <i class="fas fa-info-circle"></i>
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+<!-- Contenido Principal -->
+            <main class="lnv-main-content">
+                {% block content %}
+                <!-- Aquí va el contenido de cada página -->
+                {% endblock %}
+            </main>
+            
+            <!-- Footer -->
+            <footer class="lnv-footer">
+                <div class="lnv-footer-content">
+                    <!-- Logos institucionales -->
+                    <div class="lnv-footer-logos">
+                        <div class="lnv-footer-logo-item">
+                            <img src="{% static 'img/logos/lnp-logo.png' %}" 
+                                 alt="Laboratorio Nacional de Parasitología" 
+                                 class="lnv-footer-logo">
+                            <div class="lnv-footer-logo-label">Lab. Nacional de Parasitología</div>
+                        </div>
+                        
+                        <div class="lnv-footer-logo-item">
+                            <img src="{% static 'img/logos/lab-nacional.png' %}" 
+                                 alt="Laboratorio Nacional" 
+                                 class="lnv-footer-logo">
+                            <div class="lnv-footer-logo-label">Laboratorio Nacional</div>
+                        </div>
+                        
+                        <div class="lnv-footer-logo-item">
+                            <img src="{% static 'img/logos/sesal-logo.png' %}" 
+                                 alt="Secretaría de Salud" 
+                                 class="lnv-footer-logo">
+                            <div class="lnv-footer-logo-label">Secretaría de Salud</div>
+                        </div>
+                    </div>
+                    
+                    <div class="lnv-footer-divider"></div>
+                    
+                    <div class="lnv-footer-copyright">
+                        <p>
+                            <i class="fas fa-copyright"></i>
+                            {% now "Y" %} Laboratorio Nacional de Parasitología - Secretaría de Salud de Honduras
+                        </p>
+                        <p>
+                            <small>Sistema de Gestión de Exámenes Parasitológicos</small>
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    {% else %}
+    <!-- Sin sidebar (página de login) -->
+    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+        <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+            {% block content_login %}
+            <!-- Aquí va el contenido del login -->
+            {% endblock %}
+        </main>
+        
+        <!-- Footer para login -->
+        <footer class="lnv-footer">
+            <div class="lnv-footer-content">
+                <div class="lnv-footer-logos">
+                    <div class="lnv-footer-logo-item">
+                        <img src="{% static 'img/logos/lnp-logo.png' %}" 
+                             alt="Laboratorio Nacional de Parasitología" 
+                             class="lnv-footer-logo">
+                        <div class="lnv-footer-logo-label">Lab. Nacional de Parasitología</div>
+                    </div>
+                    
+                    <div class="lnv-footer-logo-item">
+                        <img src="{% static 'img/logos/lab-nacional.png' %}" 
+                             alt="Laboratorio Nacional" 
+                             class="lnv-footer-logo">
+                        <div class="lnv-footer-logo-label">Laboratorio Nacional</div>
+                    </div>
+                    
+                    <div class="lnv-footer-logo-item">
+                        <img src="{% static 'img/logos/sesal-logo.png' %}" 
+                             alt="Secretaría de Salud" 
+                             class="lnv-footer-logo">
+                        <div class="lnv-footer-logo-label">Secretaría de Salud</div>
+                    </div>
+                </div>
+                
+                <div class="lnv-footer-divider"></div>
+                
+                <div class="lnv-footer-copyright">
+                    <p>
+                        <i class="fas fa-copyright"></i>
+                        {% now "Y" %} Laboratorio Nacional de Parasitología - Secretaría de Salud de Honduras
+                    </p>
+                    <p>
+                        <small>Sistema de Gestión de Exámenes Parasitológicos</small>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    {% endif %}
+    
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+    <!-- Framework LNV JS -->
+    <script src="{% static 'lnv-framework/js/lnv-core.js' %}"></script>
+    <script src="{% static 'lnv-framework/js/lnv-utils.js' %}"></script>
+    
+    <script>
+        // Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('mainSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar && overlay) {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            }
+        }
+        
+        // Cerrar sidebar al hacer clic en un enlace (solo en móvil)
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.innerWidth <= 992) {
+                const navItems = document.querySelectorAll('.lnv-nav-item');
+                navItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        toggleSidebar();
+                    });
+                });
+            }
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

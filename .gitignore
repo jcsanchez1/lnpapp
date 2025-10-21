@@ -1,0 +1,53 @@
+# Entorno virtual
+venv/
+ENV/
+env/
+*.pyc
+__pycache__/
+
+# Archivos de configuración local
+*.env
+*.local
+*.log
+
+# Archivos de base de datos
+*.sqlite3
+db.sqlite3
+
+# Archivos de migración
+*/migrations/*.py
+*/migrations/*.pyc
+*/migrations/__pycache__/
+
+# Archivos de compilación
+*.egg-info/
+*.egg/
+dist/
+build/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos estáticos y media (si se generan localmente)
+/staticfiles/
+/media/
+
+# Archivos de cobertura de pruebas
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+
+# Archivos de pytest
+.pytest_cache/
+
+# Archivos de Docker
+*.pid
+*.sock

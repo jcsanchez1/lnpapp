@@ -1,0 +1,45 @@
+<!-- Sidebar para usuarios CAT (Centro de Atención) -->
+<aside class="lnv-sidebar" id="mainSidebar">
+    <div class="lnv-sidebar-header">
+        <div class="user-info-sidebar">
+            <div class="user-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="user-details">
+                <strong>{{ user.get_full_name|default:user.username }}</strong>
+                <small class="lnv-badge lnv-badge-warning">{{ user.profile.rol.nombre }}</small>
+                {% if user.profile.centro_atencion %}
+                <small class="centro-badge">{{ user.profile.centro_atencion.codigo }}</small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <nav class="lnv-sidebar-nav">
+        <a href="{% url 'dashboard_centro' %}" class="lnv-nav-item {% if request.resolver_match.url_name == 'dashboard_centro' %}active{% endif %}">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+        
+        <a href="#" class="lnv-nav-item">
+            <i class="fas fa-folder-open"></i>
+            <span>Expedientes</span>
+        </a>
+        
+        <a href="#" class="lnv-nav-item">
+            <i class="fas fa-flask"></i>
+            <span>Muestras</span>
+        </a>
+        
+        <a href="#" class="lnv-nav-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>Reportes</span>
+        </a>
+    </nav>
+    
+    <div class="lnv-sidebar-footer">
+        <button onclick="toggleSidebar()" class="lnv-btn lnv-btn-sm lnv-btn-outline-light lnv-btn-block">
+            <i class="fas fa-chevron-left"></i> Ocultar
+        </button>
+    </div>
+</aside>

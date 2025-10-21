@@ -1,0 +1,772 @@
+/**
+ * ====================================
+ * LNV FRAMEWORK - ANIMATIONS & EFFECTS
+ * Animaciones, transiciones, microinteracciones
+ * ====================================
+ */
+
+
+/* ===========================
+   ANIMACIONES DE ENTRADA
+   ========================== */
+
+/* Fade In */
+@keyframes lnv-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lnv-fade-in {
+  animation: lnv-fade-in var(--lnv-transition-base);
+}
+
+/* Fade In Up */
+@keyframes lnv-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lnv-fade-in-up {
+  animation: lnv-fade-in-up var(--lnv-transition-base);
+}
+
+/* Fade In Down */
+@keyframes lnv-fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lnv-fade-in-down {
+  animation: lnv-fade-in-down var(--lnv-transition-base);
+}
+
+/* Fade In Left */
+@keyframes lnv-fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.lnv-fade-in-left {
+  animation: lnv-fade-in-left var(--lnv-transition-base);
+}
+
+/* Fade In Right */
+@keyframes lnv-fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.lnv-fade-in-right {
+  animation: lnv-fade-in-right var(--lnv-transition-base);
+}
+
+/* Zoom In */
+@keyframes lnv-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.lnv-zoom-in {
+  animation: lnv-zoom-in var(--lnv-transition-base);
+}
+
+/* Slide In Up */
+@keyframes lnv-slide-in-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.lnv-slide-in-up {
+  animation: lnv-slide-in-up var(--lnv-transition-base);
+}
+
+/* Bounce In */
+@keyframes lnv-bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.lnv-bounce-in {
+  animation: lnv-bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+
+/* ===========================
+   ANIMACIONES DE SALIDA
+   ========================== */
+
+/* Fade Out */
+@keyframes lnv-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.lnv-fade-out {
+  animation: lnv-fade-out var(--lnv-transition-base);
+}
+
+/* Zoom Out */
+@keyframes lnv-zoom-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.lnv-zoom-out {
+  animation: lnv-zoom-out var(--lnv-transition-base);
+}
+
+/* Slide Out Down */
+@keyframes lnv-slide-out-down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.lnv-slide-out-down {
+  animation: lnv-slide-out-down var(--lnv-transition-base);
+}
+
+
+/* ===========================
+   ANIMACIONES CONTINUAS
+   ========================== */
+
+/* Pulse */
+@keyframes lnv-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.lnv-pulse {
+  animation: lnv-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Bounce */
+@keyframes lnv-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.lnv-bounce {
+  animation: lnv-bounce 1s infinite;
+}
+
+/* Shake */
+@keyframes lnv-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+.lnv-shake {
+  animation: lnv-shake 0.8s;
+}
+
+/* Spin */
+@keyframes lnv-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.lnv-spin {
+  animation: lnv-spin 1s linear infinite;
+}
+
+/* Ping (para notificaciones) */
+@keyframes lnv-ping {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.lnv-ping {
+  animation: lnv-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+
+/* ===========================
+   EFECTOS HOVER - CARDS
+   ========================== */
+
+.lnv-hover-lift {
+  transition: all var(--lnv-transition-base);
+}
+
+.lnv-hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--lnv-shadow-xl);
+}
+
+.lnv-hover-glow {
+  position: relative;
+  transition: all var(--lnv-transition-base);
+}
+
+.lnv-hover-glow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--lnv-transition-base);
+  box-shadow: 0 0 20px rgba(125, 211, 224, 0.6);
+}
+
+.lnv-hover-glow:hover::before {
+  opacity: 1;
+}
+
+.lnv-hover-scale {
+  transition: transform var(--lnv-transition-base);
+}
+
+.lnv-hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.lnv-hover-rotate {
+  transition: transform var(--lnv-transition-base);
+}
+
+.lnv-hover-rotate:hover {
+  transform: rotate(2deg);
+}
+
+.lnv-hover-brightness {
+  transition: filter var(--lnv-transition-base);
+}
+
+.lnv-hover-brightness:hover {
+  filter: brightness(1.1);
+}
+
+
+/* ===========================
+   EFECTOS HOVER - BOTONES
+   ========================== */
+
+.lnv-btn-hover-shadow {
+  transition: all var(--lnv-transition-base);
+}
+
+.lnv-btn-hover-shadow:hover {
+  box-shadow: var(--lnv-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.lnv-btn-hover-grow {
+  transition: transform var(--lnv-transition-fast);
+}
+
+.lnv-btn-hover-grow:hover {
+  transform: scale(1.1);
+}
+
+/* Efecto de onda expandida */
+.lnv-btn-ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.lnv-btn-ripple-effect::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.lnv-btn-ripple-effect:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+
+/* ===========================
+   EFECTOS HOVER - IMÁGENES
+   ========================== */
+
+.lnv-img-hover-zoom {
+  overflow: hidden;
+}
+
+.lnv-img-hover-zoom img {
+  transition: transform var(--lnv-transition-slow);
+}
+
+.lnv-img-hover-zoom:hover img {
+  transform: scale(1.15);
+}
+
+.lnv-img-hover-grayscale img {
+  transition: filter var(--lnv-transition-base);
+  filter: grayscale(100%);
+}
+
+.lnv-img-hover-grayscale:hover img {
+  filter: grayscale(0%);
+}
+
+.lnv-img-hover-blur img {
+  transition: filter var(--lnv-transition-base);
+}
+
+.lnv-img-hover-blur:hover img {
+  filter: blur(3px);
+}
+
+
+/* ===========================
+   LOADING SKELETONS
+   ========================== */
+
+@keyframes lnv-skeleton-loading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.lnv-skeleton {
+  background-color: var(--lnv-gray-light);
+  background-image: linear-gradient(
+    90deg,
+    var(--lnv-gray-light) 0px,
+    rgba(255, 255, 255, 0.8) 40px,
+    var(--lnv-gray-light) 80px
+  );
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  border-radius: var(--lnv-radius-md);
+  animation: lnv-skeleton-loading 1.5s ease-in-out infinite;
+}
+
+.lnv-skeleton-text {
+  height: 12px;
+  margin-bottom: var(--lnv-spacing-2);
+}
+
+.lnv-skeleton-circle {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.lnv-skeleton-rect {
+  height: 100px;
+}
+
+
+/* ===========================
+   GAMIFICACIÓN - EFECTOS
+   ========================== */
+
+/* Efecto de medalla ganada */
+@keyframes lnv-medal-pop {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+.lnv-medal-animation {
+  animation: lnv-medal-pop 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Brillo de medalla */
+@keyframes lnv-medal-shine {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.9);
+  }
+}
+
+.lnv-medal-shine {
+  animation: lnv-medal-shine 2s ease-in-out infinite;
+}
+
+/* Confetti effect (partículas) */
+@keyframes lnv-confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.lnv-confetti {
+  animation: lnv-confetti-fall 3s linear;
+}
+
+/* Número animado (contador) */
+@keyframes lnv-count-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.lnv-count-up {
+  animation: lnv-count-up 0.6s ease-out;
+}
+
+/* Efecto de nivel completado */
+@keyframes lnv-level-complete {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.lnv-level-complete {
+  animation: lnv-level-complete 0.5s ease-in-out;
+}
+
+/* Estrella ganada */
+@keyframes lnv-star-twinkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5) rotate(180deg);
+    opacity: 0.7;
+  }
+}
+
+.lnv-star-twinkle {
+  animation: lnv-star-twinkle 1s ease-in-out;
+}
+
+/* Barra de progreso llenándose */
+@keyframes lnv-progress-fill {
+  from {
+    width: 0%;
+  }
+}
+
+.lnv-progress-fill {
+  animation: lnv-progress-fill 1.5s ease-out;
+}
+
+
+/* ===========================
+   MICROINTERACCIONES
+   ========================== */
+
+/* Botón con presión */
+.lnv-press-effect:active {
+  transform: scale(0.95);
+  transition: transform 0.1s;
+}
+
+/* Icono que tiembla */
+@keyframes lnv-wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+}
+
+.lnv-wiggle:hover {
+  animation: lnv-wiggle 0.3s ease-in-out;
+}
+
+/* Texto que aparece letra por letra */
+@keyframes lnv-typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.lnv-typing {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--lnv-primary);
+  animation: lnv-typing 3s steps(40, end), lnv-blink-caret 0.75s step-end infinite;
+}
+
+@keyframes lnv-blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--lnv-primary);
+  }
+}
+
+/* Notificación que entra desde arriba */
+@keyframes lnv-notification-drop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.lnv-notification-drop {
+  animation: lnv-notification-drop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Badge que crece */
+@keyframes lnv-badge-pop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.lnv-badge-pop {
+  animation: lnv-badge-pop 0.3s ease-out;
+}
+
+
+/* ===========================
+   EFECTOS DE ATENCIÓN
+   ========================== */
+
+/* Resaltado pulsante */
+@keyframes lnv-highlight-pulse {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(125, 211, 224, 0.3);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.lnv-highlight {
+  animation: lnv-highlight-pulse 1.5s ease-in-out 3;
+}
+
+/* Parpadeo de alerta */
+@keyframes lnv-blink-alert {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.lnv-blink {
+  animation: lnv-blink-alert 1s ease-in-out infinite;
+}
+
+/* Efecto de brillo que pasa */
+@keyframes lnv-shine-pass {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.lnv-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.lnv-shine::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  animation: lnv-shine-pass 2s infinite;
+}
+
+
+/* ===========================
+   DELAYS DE ANIMACIÓN
+   ========================== */
+
+.lnv-delay-100 { animation-delay: 0.1s; }
+.lnv-delay-200 { animation-delay: 0.2s; }
+.lnv-delay-300 { animation-delay: 0.3s; }
+.lnv-delay-400 { animation-delay: 0.4s; }
+.lnv-delay-500 { animation-delay: 0.5s; }
+.lnv-delay-700 { animation-delay: 0.7s; }
+.lnv-delay-1000 { animation-delay: 1s; }
+
+
+/* ===========================
+   DURACIONES DE ANIMACIÓN
+   ========================== */
+
+.lnv-duration-fast { animation-duration: 150ms; }
+.lnv-duration-base { animation-duration: 250ms; }
+.lnv-duration-slow { animation-duration: 350ms; }
+.lnv-duration-slower { animation-duration: 500ms; }
+.lnv-duration-slowest { animation-duration: 1s; }
+
+
+/* ===========================
+   UTILIDADES DE TRANSICIÓN
+   ========================== */
+
+.lnv-transition-all {
+  transition: all var(--lnv-transition-base);
+}
+
+.lnv-transition-colors {
+  transition: background-color var(--lnv-transition-base),
+              color var(--lnv-transition-base),
+              border-color var(--lnv-transition-base);
+}
+
+.lnv-transition-opacity {
+  transition: opacity var(--lnv-transition-base);
+}
+
+.lnv-transition-transform {
+  transition: transform var(--lnv-transition-base);
+}
+
+.lnv-transition-shadow {
+  transition: box-shadow var(--lnv-transition-base);
+}

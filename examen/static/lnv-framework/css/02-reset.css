@@ -1,0 +1,485 @@
+/**
+ * ====================================
+ * LNV FRAMEWORK - RESET & BASE STYLES
+ * Normalización y estilos base
+ * ====================================
+ */
+
+
+/* ===========================
+   RESET UNIVERSAL
+   ========================== */
+
+*, 
+*::before, 
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  /* Mejora el renderizado de fuentes */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* ===========================
+   HTML Y BODY BASE
+   ========================== */
+
+html {
+  /* 1rem = 16px por defecto */
+  font-size: 16px;
+  /* Mejora el scroll en iOS */
+  -webkit-text-size-adjust: 100%;
+  /* Hace que el scroll sea suave */
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--lnv-font-primary);
+  font-size: var(--lnv-text-base);
+  font-weight: var(--lnv-font-normal);
+  line-height: var(--lnv-leading-normal);
+  color: var(--lnv-dark);
+  background-color: var(--lnv-light);
+  /* Evita el overflow horizontal */
+  overflow-x: hidden;
+  /* Mejora el renderizado de texto */
+  text-rendering: optimizeLegibility;
+}
+
+
+/* ===========================
+   TIPOGRAFÍA BASE
+   ========================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--lnv-font-semibold);
+  line-height: var(--lnv-leading-tight);
+  color: var(--lnv-dark);
+  margin-bottom: var(--lnv-spacing-4);
+}
+
+h1 {
+  font-size: var(--lnv-text-4xl);
+  font-weight: var(--lnv-font-bold);
+}
+
+h2 {
+  font-size: var(--lnv-text-3xl);
+}
+
+h3 {
+  font-size: var(--lnv-text-2xl);
+}
+
+h4 {
+  font-size: var(--lnv-text-xl);
+}
+
+h5 {
+  font-size: var(--lnv-text-lg);
+}
+
+h6 {
+  font-size: var(--lnv-text-base);
+}
+
+p {
+  margin-bottom: var(--lnv-spacing-4);
+  line-height: var(--lnv-leading-relaxed);
+}
+
+small {
+  font-size: var(--lnv-text-sm);
+  color: var(--lnv-gray);
+}
+
+strong, b {
+  font-weight: var(--lnv-font-bold);
+}
+
+em, i {
+  font-style: italic;
+}
+
+mark {
+  background-color: var(--lnv-accent);
+  color: var(--lnv-dark);
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--lnv-radius-sm);
+}
+
+code {
+  font-family: var(--lnv-font-mono);
+  font-size: 0.9em;
+  background-color: var(--lnv-gray-light);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--lnv-radius-sm);
+  color: var(--lnv-danger);
+}
+
+pre {
+  font-family: var(--lnv-font-mono);
+  background-color: var(--lnv-dark);
+  color: var(--lnv-white);
+  padding: var(--lnv-spacing-4);
+  border-radius: var(--lnv-radius-md);
+  overflow-x: auto;
+  margin-bottom: var(--lnv-spacing-4);
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+
+/* ===========================
+   ENLACES
+   ========================== */
+
+a {
+  color: var(--lnv-primary);
+  text-decoration: none;
+  transition: color var(--lnv-transition-fast);
+}
+
+a:hover {
+  color: var(--lnv-primary-dark);
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: 2px solid var(--lnv-primary);
+  outline-offset: 2px;
+  border-radius: var(--lnv-radius-sm);
+}
+
+
+/* ===========================
+   LISTAS
+   ========================== */
+
+ul, ol {
+  list-style: none;
+  margin-bottom: var(--lnv-spacing-4);
+}
+
+ul.list-disc {
+  list-style: disc;
+  padding-left: var(--lnv-spacing-6);
+}
+
+ol.list-decimal {
+  list-style: decimal;
+  padding-left: var(--lnv-spacing-6);
+}
+
+li {
+  margin-bottom: var(--lnv-spacing-2);
+}
+
+
+/* ===========================
+   TABLAS
+   ========================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--lnv-spacing-4);
+}
+
+th, td {
+  padding: var(--lnv-spacing-3);
+  text-align: left;
+  border-bottom: var(--lnv-border-width) solid var(--lnv-gray-light);
+}
+
+th {
+  font-weight: var(--lnv-font-semibold);
+  color: var(--lnv-dark);
+  background-color: var(--lnv-white);
+}
+
+tr:hover {
+  background-color: rgba(125, 211, 224, 0.05);
+}
+
+
+/* ===========================
+   FORMULARIOS
+   ========================== */
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+  width: 100%;
+  padding: var(--lnv-spacing-3);
+  border: var(--lnv-border-width) solid var(--lnv-gray-light);
+  border-radius: var(--lnv-radius-md);
+  background-color: var(--lnv-white);
+  transition: all var(--lnv-transition-base);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--lnv-primary);
+  box-shadow: 0 0 0 3px rgba(125, 211, 224, 0.2);
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  background-color: var(--lnv-light);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+label {
+  display: block;
+  font-weight: var(--lnv-font-medium);
+  margin-bottom: var(--lnv-spacing-2);
+  color: var(--lnv-dark);
+}
+
+/* Checkbox y Radio */
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  margin-right: var(--lnv-spacing-2);
+  cursor: pointer;
+}
+
+
+/* ===========================
+   BOTONES BASE
+   ========================== */
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: all var(--lnv-transition-base);
+}
+
+button:focus {
+  outline: 2px solid var(--lnv-primary);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+
+/* ===========================
+   IMÁGENES Y MEDIOS
+   ========================== */
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+img {
+  border-style: none;
+}
+
+
+/* ===========================
+   SECCIONES Y DIVISORES
+   ========================== */
+
+hr {
+  border: none;
+  border-top: var(--lnv-border-width) solid var(--lnv-gray-light);
+  margin: var(--lnv-spacing-6) 0;
+}
+
+
+/* ===========================
+   UTILIDADES GLOBALES
+   ========================== */
+
+/* Ocultar elementos de forma accesible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Clearfix */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Truncar texto con ellipsis */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Ocultar scrollbar pero mantener funcionalidad */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* ===========================
+   SCROLLBAR PERSONALIZADO
+   ========================== */
+
+/* Para navegadores Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--lnv-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--lnv-gray-light);
+  border-radius: var(--lnv-radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--lnv-primary);
+}
+
+/* Para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--lnv-gray-light) var(--lnv-light);
+}
+
+
+/* ===========================
+   SELECCIÓN DE TEXTO
+   ========================== */
+
+::selection {
+  background-color: var(--lnv-primary);
+  color: var(--lnv-white);
+}
+
+::-moz-selection {
+  background-color: var(--lnv-primary);
+  color: var(--lnv-white);
+}
+
+
+/* ===========================
+   PLACEHOLDER DE INPUTS
+   ========================== */
+
+::placeholder {
+  color: var(--lnv-gray);
+  opacity: 0.7;
+}
+
+::-webkit-input-placeholder {
+  color: var(--lnv-gray);
+  opacity: 0.7;
+}
+
+::-moz-placeholder {
+  color: var(--lnv-gray);
+  opacity: 0.7;
+}
+
+
+/* ===========================
+   IMPRESIÓN
+   ========================== */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+
+  img {
+    page-break-inside: avoid;
+  }
+
+  h2,
+  h3,
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}

@@ -1,0 +1,235 @@
+/**
+ * ====================================
+ * LNV FRAMEWORK - CORE VARIABLES
+ * Laboratorio Nacional de Vigilancia
+ * Secretaría de Salud - Honduras
+ * ====================================
+ */
+
+:root {
+  
+  /* ===========================
+     COLORES INSTITUCIONALES
+     ========================== */
+  
+  /* Primarios - De los logos oficiales */
+  --lnv-primary: #7DD3E0;        /* Turquesa institucional */
+  --lnv-primary-light: #A8E3EC;  /* Variante clara */
+  --lnv-primary-dark: #4DB8AC;   /* Variante oscura */
+  
+  --lnv-secondary: #4DB8AC;      /* Verde turquesa */
+  --lnv-secondary-light: #7DCFC7;
+  --lnv-secondary-dark: #3A9488;
+  
+  --lnv-accent: #FFD700;         /* Amarillo (del caduceo) */
+  --lnv-accent-light: #FFE55C;
+  --lnv-accent-dark: #CCA600;
+  
+  /* Neutrales */
+  --lnv-dark: #2C3E50;           /* Texto principal */
+  --lnv-gray: #8B8B8B;           /* Texto secundario (del logo) */
+  --lnv-gray-light: #BDC3C7;     /* Bordes, divisores */
+  --lnv-light: #F5F7FA;          /* Fondos claros */
+  --lnv-white: #FFFFFF;          /* Blanco puro */
+  --lnv-black: #1A1A1A;          /* Negro (textos fuertes) */
+  
+  /* Estados del sistema */
+  --lnv-success: #28A745;        /* Verde éxito */
+  --lnv-success-light: #5FC878;
+  --lnv-success-dark: #1E7B34;
+  
+  --lnv-warning: #FFC107;        /* Amarillo advertencia */
+  --lnv-warning-light: #FFD454;
+  --lnv-warning-dark: #CC9A06;
+  
+  --lnv-danger: #C1272D;         /* Rojo (del logo) */
+  --lnv-danger-light: #D85459;
+  --lnv-danger-dark: #8B1C20;
+  
+  --lnv-info: #7DD3E0;           /* Info (mismo que primary) */
+  --lnv-info-light: #A8E3EC;
+  --lnv-info-dark: #4DB8AC;
+  
+  /* Gamificación */
+  --lnv-gold: #FFD700;           /* Oro - 1er lugar */
+  --lnv-silver: #C0C0C0;         /* Plata - 2do lugar */
+  --lnv-bronze: #CD7F32;         /* Bronce - 3er lugar */
+  --lnv-medal-glow: #FFF59D;     /* Brillo de medallas */
+  
+  
+  /* ===========================
+     TIPOGRAFÍA
+     ========================== */
+  
+  /* Familias de fuentes */
+  --lnv-font-primary: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --lnv-font-secondary: 'Arial', sans-serif;
+  --lnv-font-mono: 'Courier New', monospace;
+  
+  /* Tamaños de fuente */
+  --lnv-text-xs: 0.75rem;        /* 12px */
+  --lnv-text-sm: 0.875rem;       /* 14px */
+  --lnv-text-base: 1rem;         /* 16px - base */
+  --lnv-text-lg: 1.125rem;       /* 18px */
+  --lnv-text-xl: 1.25rem;        /* 20px */
+  --lnv-text-2xl: 1.5rem;        /* 24px */
+  --lnv-text-3xl: 1.875rem;      /* 30px */
+  --lnv-text-4xl: 2.25rem;       /* 36px */
+  --lnv-text-5xl: 3rem;          /* 48px */
+  
+  /* Pesos de fuente */
+  --lnv-font-light: 300;
+  --lnv-font-normal: 400;
+  --lnv-font-medium: 500;
+  --lnv-font-semibold: 600;
+  --lnv-font-bold: 700;
+  --lnv-font-extrabold: 800;
+  
+  /* Alturas de línea */
+  --lnv-leading-none: 1;
+  --lnv-leading-tight: 1.25;
+  --lnv-leading-snug: 1.375;
+  --lnv-leading-normal: 1.5;
+  --lnv-leading-relaxed: 1.625;
+  --lnv-leading-loose: 2;
+  
+  
+  /* ===========================
+     ESPACIADOS
+     ========================== */
+  
+  --lnv-spacing-0: 0;
+  --lnv-spacing-1: 0.25rem;      /* 4px */
+  --lnv-spacing-2: 0.5rem;       /* 8px */
+  --lnv-spacing-3: 0.75rem;      /* 12px */
+  --lnv-spacing-4: 1rem;         /* 16px */
+  --lnv-spacing-5: 1.25rem;      /* 20px */
+  --lnv-spacing-6: 1.5rem;       /* 24px */
+  --lnv-spacing-8: 2rem;         /* 32px */
+  --lnv-spacing-10: 2.5rem;      /* 40px */
+  --lnv-spacing-12: 3rem;        /* 48px */
+  --lnv-spacing-16: 4rem;        /* 64px */
+  --lnv-spacing-20: 5rem;        /* 80px */
+  --lnv-spacing-24: 6rem;        /* 96px */
+  
+  
+  /* ===========================
+     BORDES Y RADIOS
+     ========================== */
+  
+  --lnv-border-width: 1px;
+  --lnv-border-width-2: 2px;
+  --lnv-border-width-4: 4px;
+  
+  --lnv-radius-none: 0;
+  --lnv-radius-sm: 0.25rem;      /* 4px */
+  --lnv-radius-base: 0.375rem;   /* 6px */
+  --lnv-radius-md: 0.5rem;       /* 8px */
+  --lnv-radius-lg: 0.75rem;      /* 12px */
+  --lnv-radius-xl: 1rem;         /* 16px */
+  --lnv-radius-2xl: 1.5rem;      /* 24px */
+  --lnv-radius-full: 9999px;     /* Círculo perfecto */
+  
+  
+  /* ===========================
+     SOMBRAS
+     ========================== */
+  
+  --lnv-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --lnv-shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --lnv-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --lnv-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --lnv-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --lnv-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --lnv-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  --lnv-shadow-none: none;
+  
+  /* Sombras de color (para efectos hover) */
+  --lnv-shadow-primary: 0 4px 14px 0 rgba(125, 211, 224, 0.4);
+  --lnv-shadow-success: 0 4px 14px 0 rgba(40, 167, 69, 0.4);
+  --lnv-shadow-danger: 0 4px 14px 0 rgba(193, 39, 45, 0.4);
+  --lnv-shadow-warning: 0 4px 14px 0 rgba(255, 193, 7, 0.4);
+  
+  
+  /* ===========================
+     TRANSICIONES
+     ========================== */
+  
+  --lnv-transition-fast: 150ms ease-in-out;
+  --lnv-transition-base: 250ms ease-in-out;
+  --lnv-transition-slow: 350ms ease-in-out;
+  
+  --lnv-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --lnv-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --lnv-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  
+  /* ===========================
+     Z-INDEX (capas)
+     ========================== */
+  
+  --lnv-z-base: 0;
+  --lnv-z-dropdown: 1000;
+  --lnv-z-sticky: 1020;
+  --lnv-z-fixed: 1030;
+  --lnv-z-modal-backdrop: 1040;
+  --lnv-z-modal: 1050;
+  --lnv-z-popover: 1060;
+  --lnv-z-tooltip: 1070;
+  --lnv-z-notification: 1080;
+  
+  
+  /* ===========================
+     BREAKPOINTS (responsivo)
+     ========================== */
+  
+  --lnv-screen-xs: 480px;
+  --lnv-screen-sm: 640px;
+  --lnv-screen-md: 768px;
+  --lnv-screen-lg: 1024px;
+  --lnv-screen-xl: 1280px;
+  --lnv-screen-2xl: 1536px;
+  
+  
+  /* ===========================
+     CONTENEDORES
+     ========================== */
+  
+  --lnv-container-sm: 640px;
+  --lnv-container-md: 768px;
+  --lnv-container-lg: 1024px;
+  --lnv-container-xl: 1280px;
+  --lnv-container-2xl: 1400px;
+  
+  
+  /* ===========================
+     SIDEBAR Y NAVBAR
+     ========================== */
+  
+  --lnv-sidebar-width: 260px;
+  --lnv-sidebar-collapsed-width: 70px;
+  --lnv-navbar-height: 60px;
+  
+}
+
+
+/* ===========================
+   TEMA OSCURO (DARK MODE)
+   ========================== */
+
+[data-theme="dark"] {
+  --lnv-primary: #5FC4D4;
+  --lnv-primary-light: #7DD3E0;
+  --lnv-primary-dark: #3A9FAF;
+  
+  --lnv-dark: #ECF0F1;           /* Texto invertido */
+  --lnv-gray: #BDC3C7;
+  --lnv-light: #2C3E50;          /* Fondo oscuro */
+  --lnv-white: #1A1A1A;          /* Fondo muy oscuro */
+  --lnv-black: #FFFFFF;          /* Texto blanco */
+  
+  /* Ajuste de sombras para modo oscuro */
+  --lnv-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --lnv-shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --lnv-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}

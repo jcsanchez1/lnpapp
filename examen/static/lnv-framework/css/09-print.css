@@ -1,0 +1,407 @@
+/**
+ * ====================================
+ * LNV FRAMEWORK - PRINT STYLES
+ * Estilos optimizados para impresión
+ * ====================================
+ */
+
+@media print {
+  
+  /* ===========================
+     RESET GENERAL
+     ========================== */
+  
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  
+  /* ===========================
+     OCULTAR ELEMENTOS NO IMPRIMIBLES
+     ========================== */
+  
+  /* Ocultar elementos de navegación */
+  .lnv-sidebar,
+  .lnv-navbar,
+  .lnv-nav,
+  nav,
+  header,
+  footer,
+  .lnv-breadcrumb,
+  
+  /* Ocultar controles interactivos */
+  button,
+  .lnv-btn,
+  .lnv-dropdown,
+  .lnv-modal,
+  .lnv-toast,
+  .lnv-tooltip,
+  .lnv-alert-close,
+  
+  /* Ocultar formularios */
+  form,
+  input,
+  textarea,
+  select,
+  .lnv-form-control,
+  
+  /* Ocultar elementos multimedia */
+  video,
+  audio,
+  iframe,
+  
+  /* Clase especial para ocultar en impresión */
+  .lnv-no-print {
+    display: none !important;
+  }
+  
+  
+  /* ===========================
+     AJUSTES DE PÁGINA
+     ========================== */
+  
+  @page {
+    margin: 2cm;
+    size: A4 portrait;
+  }
+  
+  @page :first {
+    margin-top: 3cm;
+  }
+  
+  
+  /* ===========================
+     TIPOGRAFÍA OPTIMIZADA
+     ========================== */
+  
+  body {
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+    color: #000 !important;
+    background: #fff !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+    color: #000 !important;
+    font-weight: bold !important;
+  }
+  
+  h1 { font-size: 24pt !important; margin-bottom: 12pt !important; }
+  h2 { font-size: 20pt !important; margin-bottom: 10pt !important; }
+  h3 { font-size: 16pt !important; margin-bottom: 8pt !important; }
+  h4 { font-size: 14pt !important; margin-bottom: 6pt !important; }
+  h5 { font-size: 12pt !important; margin-bottom: 6pt !important; }
+  h6 { font-size: 11pt !important; margin-bottom: 6pt !important; }
+  
+  p {
+    margin-bottom: 8pt !important;
+    orphans: 3;
+    widows: 3;
+  }
+  
+  
+  /* ===========================
+     ENLACES
+     ========================== */
+  
+  a {
+    text-decoration: underline !important;
+    color: #000 !important;
+  }
+  
+  /* Mostrar URLs después de los enlaces */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+    color: #666;
+  }
+  
+  /* No mostrar URL para enlaces internos */
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after {
+    content: "";
+  }
+  
+  /* Abreviaturas */
+  abbr[title]::after {
+    content: " (" attr(title) ")";
+  }
+  
+  
+  /* ===========================
+     IMÁGENES
+     ========================== */
+  
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+    page-break-after: avoid;
+  }
+  
+  /* Clase para forzar impresión de imagen */
+  .lnv-print-image {
+    display: block !important;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  
+  /* ===========================
+     TABLAS
+     ========================== */
+  
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    page-break-inside: auto;
+  }
+  
+  thead {
+    display: table-header-group;
+  }
+  
+  tr {
+    page-break-inside: avoid;
+  }
+  
+  th, td {
+    border: 1px solid #ddd !important;
+    padding: 6pt !important;
+    font-size: 10pt !important;
+  }
+  
+  th {
+    background-color: #f0f0f0 !important;
+    font-weight: bold !important;
+  }
+  
+  
+  /* ===========================
+     LISTAS
+     ========================== */
+  
+  ul, ol {
+    page-break-inside: avoid;
+  }
+  
+  li {
+    page-break-inside: avoid;
+  }
+  
+  
+  /* ===========================
+     CÓDIGO
+     ========================== */
+  
+  pre, code {
+    page-break-inside: avoid;
+    border: 1px solid #999 !important;
+    background-color: #f5f5f5 !important;
+    padding: 4pt !important;
+    font-size: 9pt !important;
+    font-family: 'Courier New', monospace !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+  }
+  
+  
+  /* ===========================
+     CARDS Y COMPONENTES
+     ========================== */
+  
+  .lnv-card,
+  .lnv-stat-card {
+    page-break-inside: avoid;
+    border: 1px solid #ddd !important;
+    padding: 12pt !important;
+    margin-bottom: 12pt !important;
+    box-shadow: none !important;
+  }
+  
+  .lnv-card-header {
+    border-bottom: 2px solid #ddd !important;
+    padding-bottom: 6pt !important;
+    margin-bottom: 6pt !important;
+  }
+  
+  .lnv-card-footer {
+    border-top: 1px solid #ddd !important;
+    padding-top: 6pt !important;
+    margin-top: 6pt !important;
+  }
+  
+  
+  /* ===========================
+     BADGES Y ALERTS
+     ========================== */
+  
+  .lnv-badge {
+    border: 1px solid #000 !important;
+    padding: 2pt 4pt !important;
+  }
+  
+  .lnv-alert {
+    page-break-inside: avoid;
+    border: 2px solid #000 !important;
+    padding: 8pt !important;
+    margin-bottom: 12pt !important;
+  }
+  
+  
+  /* ===========================
+     LAYOUT Y GRID
+     ========================== */
+  
+  .lnv-main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  
+  .lnv-container,
+  .lnv-container-fluid {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  
+  .lnv-row {
+    margin: 0 !important;
+  }
+  
+  [class*="lnv-col"] {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  
+  
+  /* ===========================
+     UTILIDADES ESPECIALES PRINT
+     ========================== */
+  
+  /* Forzar salto de página */
+  .lnv-page-break-before {
+    page-break-before: always;
+  }
+  
+  .lnv-page-break-after {
+    page-break-after: always;
+  }
+  
+  .lnv-page-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+  
+  /* Mostrar solo en impresión */
+  .lnv-print-only {
+    display: block !important;
+  }
+  
+  
+  /* ===========================
+     BLANCO Y NEGRO
+     ========================== */
+  
+  /* Convertir colores de fondo a gris claro */
+  .lnv-bg-primary,
+  .lnv-bg-secondary,
+  .lnv-bg-success,
+  .lnv-bg-danger,
+  .lnv-bg-warning,
+  .lnv-bg-info {
+    background-color: #f5f5f5 !important;
+    color: #000 !important;
+  }
+  
+  
+  /* ===========================
+     OPTIMIZACIÓN DE TINTA
+     ========================== */
+  
+  /* Eliminar sombras y efectos */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  /* Eliminar fondos oscuros */
+  .lnv-bg-dark,
+  .lnv-bg-black {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+  
+  
+  /* ===========================
+     ENCABEZADO Y PIE DE PÁGINA
+     ========================== */
+  
+  /* Espacio para encabezado personalizado */
+  .lnv-print-header {
+    display: block !important;
+    text-align: center;
+    margin-bottom: 24pt;
+    padding-bottom: 12pt;
+    border-bottom: 2px solid #000;
+  }
+  
+  /* Espacio para pie de página personalizado */
+  .lnv-print-footer {
+    display: block !important;
+    text-align: center;
+    margin-top: 24pt;
+    padding-top: 12pt;
+    border-top: 1px solid #000;
+    font-size: 10pt;
+  }
+  
+  
+  /* ===========================
+     NUMERACIÓN DE PÁGINAS
+     ========================== */
+  
+  @page {
+    @bottom-right {
+      content: "Página " counter(page) " de " counter(pages);
+      font-size: 10pt;
+    }
+  }
+  
+  
+  /* ===========================
+     ACCESIBILIDAD EN IMPRESIÓN
+     ========================== */
+  
+  /* Asegurar contraste en impresión */
+  .lnv-text-white,
+  .lnv-text-light {
+    color: #000 !important;
+  }
+}
+
+
+/* ===========================
+   CLASES HELPER PARA IMPRESIÓN
+   (Disponibles en todos los medios)
+   ========================== */
+
+/* Solo visible en pantalla (oculto en impresión) */
+.lnv-screen-only {
+  /* Visible por defecto, oculto solo en @media print arriba */
+}
+
+/* Solo visible en impresión (oculto en pantalla) */
+.lnv-print-only {
+  display: none;
+}
+
+@media print {
+  .lnv-print-only {
+    display: block;
+  }
+}

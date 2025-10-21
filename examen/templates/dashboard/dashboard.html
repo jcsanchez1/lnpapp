@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - LNP{% endblock %}
+
+{% block content %}
+<div class="lnv-container">
+    <h1 class="lnv-text-center lnv-mb-4">
+        Bienvenido al Sistema LNP
+    </h1>
+    
+    <div class="lnv-card lnv-card-shadow">
+        <div class="lnv-card-body lnv-text-center">
+            <h2>🎉 ¡Sistema en Construcción!</h2>
+            <p class="lnv-text-muted">
+                El dashboard completo estará disponible próximamente.
+            </p>
+            <p>
+                <strong>Usuario:</strong> {{ user.get_full_name|default:user.username }}<br>
+                {% if user.profile %}
+                    <strong>Rol:</strong> {{ user.profile.rol.nombre }}<br>
+                    <strong>Nivel:</strong> {{ user.profile.rol.get_nivel_display }}
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+/* Estilos personalizados adicionales para LNP */
+
+:root {
+    --lnp-primary: #7DD3E0;
+    --lnp-secondary: #4DB8AC;
+    --lnp-dark: #2c3e50;
+}
+
+/* Mejoras generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Placeholder para logos faltantes */
+img[src*="placeholder"] {
+    opacity: 0.6;
+}

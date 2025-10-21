@@ -1,0 +1,574 @@
+/* Importa todos los estilos */ 
+/**
+ * ====================================
+ * LNV FRAMEWORK - CSS UNIFICADO
+ * Laboratorio Nacional de Vigilancia
+ * Secretaría de Salud - Honduras
+ * 
+ * Este archivo importa todos los módulos CSS
+ * del framework en el orden correcto.
+ * 
+ * Uso:
+ * <link rel="stylesheet" href="css/lnv-framework.css">
+ * ====================================
+ */
+
+/* 1. Variables y colores base */
+@import url('01-core.css');
+
+/* 2. Reset y normalización */
+@import url('02-reset.css');
+
+/* 3. Sistema de grid y layout */
+@import url('03-layout.css');
+
+/* 4. Componentes UI */
+@import url('04-components.css');
+
+
+
+📋 RESUMEN COMPLETO Y CONTINUACIÓN PARA PRÓXIMO CHAT ✅ LO QUE SE COMPLETÓ EN ESTE CHAT: Archivos CSS Completados/Actualizados: ✅ 06-utilities.css - Completado con 10 bloques nuevos (~2000 líneas): Tipografía (alignment, size, weight, line-height, transform, decoration, spacing, etc.) Colores (text
+
+pasted
+
+jcsanchez1/lnv-framework
+main
+
+GITHUB
+
+Hola! Perfecto, veo que estás continuando con el desarrollo del Framework LNV. Gracias por el resumen detallado.
+
+Vamos a empezar siguiendo el plan de SESIÓN 1:
+
+✅ Corregir inconsistencia .lnv-block → .lnv-d-block en 03-layout.css
+✅ Crear 08-icons.css completo
+✅ Crear lnv-utils.js (helpers esenciales)
+✅ Crear lnv-forms.js (validación de formularios)
+Comencemos:
+
+1️⃣ Corrección de nomenclatura en 03-layout.css
+Primero corrijamos la inconsistencia detectada:
+
+03-layout.css (Corregido)
+Código 
+2️⃣ Crear 08-icons.css
+Ahora creemos el archivo completo para manejo de iconos:
+
+08-icons.css - Sistema de Iconos
+Código 
+Ahora actualicemos el archivo principal para incluir 08-icons.css:
+
+lnv-framework.css (Actualizado con icons)
+Código 
+Perfecto! Ahora creemos los archivos JavaScript. Primero lnv-utils.js:
+
+lnv-utils.js - Utilidades JavaScript
+Código 
+continua donde te quedaste
+
+lnv-utils.js - Utilidades JavaScript
+Código ∙ Versión 2 
+Excelente! Ahora creemos el último archivo: lnv-forms.js
+
+lnv-forms.js - Validación de Formularios
+Código 
+continuas donde te quedaste
+
+lnv-forms.js - Validación de Formularios
+Código ∙ Versión 2 
+¡Perfecto! Ahora creemos un archivo HTML de ejemplo para demostrar cómo usar todo lo que hemos creado:
+
+demo-forms.html - Ejemplo de Formularios LNV
+Artefacto interactivo 
+¡Perfecto! Ahora creemos un resumen final de lo completado:
+
+✅ RESUMEN SESIÓN 1 - COMPLETADA
+🎉 Lo que se logró en esta sesión:
+1. ✅ Corrección de nomenclatura en 03-layout.css
+Corregido .lnv-block → .lnv-d-block para consistencia
+Actualizado .lnv-inline-block → .lnv-d-inline-block
+Actualizado .lnv-inline → .lnv-d-inline
+Actualizado .lnv-hidden → .lnv-d-hidden
+2. ✅ Creado 08-icons.css (COMPLETO - ~600 líneas)
+Incluye:
+
+Icon wrapper base y tamaños (xs, sm, base, md, lg, xl, 2xl, 3xl)
+Icon colors (primary, secondary, success, danger, warning, etc.)
+Icon buttons (circular con variantes de color y tamaños)
+Icon boxes (con fondos de color)
+Icon positioning y alignment
+Icon rotation y flip
+Icon animations (spin, pulse, beat, shake)
+Icon badges (notification dots y contadores)
+Icon groups y stacks
+Soporte para Font Awesome y Material Icons
+SVG sprite system
+Icon lists
+Icon hover effects
+Responsive icon sizes
+3. ✅ Creado lnv-utils.js (COMPLETO - ~850 líneas)
+Incluye:
+
+Debounce & Throttle - Para optimizar eventos
+Storage - Helpers para localStorage con manejo de errores
+API - Wrapper para fetch con configuración por defecto
+DateUtils - Formateo de fechas (format, relative, isToday)
+NumberUtils - Formateo de números (currency, format, percentage, abbreviate)
+copyToClipboard - Copiar texto al portapapeles
+QueryString - Parsear y manipular query strings
+Cookie - Manejo completo de cookies
+StringUtils - Utilidades de strings (capitalize, titleCase, slugify, truncate, random)
+ArrayUtils - Utilidades de arrays (chunk, unique, sortBy, groupBy)
+Validators - Validadores (email, DNI, phone, URL, etc.)
+Scroll - Utilidades de scroll (to, toTop, getPosition, isInViewport)
+Device - Detección de dispositivo (isMobile, isTablet, isDesktop)
+**generate
+quedo incompleto este codigo, completalo por favor
+
+// Exportar globalmente
+window.LNVForms = LNVForms;.onSubmit) {
+          this.options.onSubmit(data, this.form);
+        } else {
+          console.log('Formulario válido:', data);
+        }
+      } else {
+        // Scroll al primer error
+        if (this.options.scrollToError) {
+          const firstErrorField = Object.keys(this.errors)[0];
+          if (firstErrorField) {
+            const element = this.fields[firstErrorField].element;
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            element.focus();
+          }
+        }
+
+        if (this.options
+Veo que el código quedó cortado. Aquí está el código completo y corregido de lnv-forms.js:
+
+lnv-forms.js - Validación de Formularios (COMPLETO)
+Código ∙ Versión 3 
+✅ SESIÓN 1 COMPLETADA CON ÉXITO
+📦 Archivos creados/actualizados:
+✅ 03-layout.css - Corregida nomenclatura de display utilities
+✅ 08-icons.css - Sistema completo de iconos (~600 líneas)
+✅ lnv-utils.js - Utilidades JavaScript (~850 líneas)
+✅ lnv-forms.js - Validación de formularios (~900 líneas) COMPLETO
+✅ lnv-framework.css - Actualizado con imports de 08-icons.css
+✅ demo-forms.html - Ejemplo funcional de uso
+🎯 Próximas sesiones:
+SESIÓN 2:
+
+lnv-carousel.js
+Componente Stepper (CSS + JS)
+Componente Rating (CSS + JS)
+Componente Chip/Tag (CSS + JS)
+SESIÓN 3:
+
+Componente Drawer/Offcanvas
+Range Slider
+Date Picker
+File Upload
+¿Quieres continuar con la SESIÓN 2 ahora, o necesitas que te ayude con algo específico de lo que acabamos de crear? 🚀
+
+continuemos segun la ruta
+
+¡Perfecto! Continuemos con la SESIÓN 2 según el plan.
+
+🚀 SESIÓN 2: Componentes Interactivos
+Vamos a crear:
+
+✅ lnv-carousel.js - Carrusel/Slider
+✅ Componente Stepper (CSS + JS)
+✅ Componente Rating (CSS + JS)
+✅ Componente Chip/Tag (CSS + JS)
+1️⃣ Crear lnv-carousel.js
+lnv-carousel.js - Sistema de Carrusel
+Código 
+Ahora vamos a crear los estilos CSS para el Carousel y los demás componentes. Primero necesitamos crear un nuevo archivo CSS para estos componentes adicionales:
+
+10-components-advanced.css - Componentes Avanzados
+Código 
+continua donde te quedaste.lnv-popover-top .lnv-popover-arrow {
+  bottom: -6px;
+  left: 50%;
+  margin-left: -5px;
+  border-top: none;
+  border-left: none;
+}
+
+.lnv-popover-bottom .
+
+10-components-advanced.css - Componentes Avanzados
+Código ∙ Versión 2 
+Ahora creemos el JavaScript para Stepper, Rating y Chips. Voy a crear un archivo que incluya estos tres componentes:
+
+lnv-components-advanced.js - Stepper, Rating, Chips
+Código 
+Ahora actualicemos el archivo principal CSS para incluir los componentes avanzados:
+
+lnv-framework.css (Actualizado con icons)
+Código ∙ Versión 2 
+Perfecto! Ahora creemos un archivo HTML de demostración para estos nuevos componentes:
+
+demo-components.html - Demo Componentes Avanzados
+Artefacto interactivo 
+continua donde te quedaste
+<!-- RATING --> <div class="lnv-row lnv-mb-8"> <div class="lnv-col-12"> <h2 class="lnv-mb-4">⭐ Sistema de Rating</h2> </div> <div class="lnv-col-12 lnv-col-md-4"> <div class="lnv-card"> <div class="lnv-card-header">Rating Interactivo</div> <div class="lnv-card-body"> <div id="rating1" data-rating></div> <p class="lnv-mt-3 lnv-text-sm lnv-text-gray"> Calificación: <span id="ratingValue">0</span> / 5
+
+demo-components.html - Demo Componentes Avanzados
+Artefacto interactivo ∙ Versión 2 
+¡Perfecto! Ahora vamos a crear un documento de resumen de todo lo completado en esta sesión:
+
+RESUMEN-SESION-2.md - Documentación
+Código 
+✅ SESIÓN 2 COMPLETADA CON ÉXITO 🎉
+📋 Resumen de lo logrado:
+Archivos creados:
+✅ lnv-carousel.js - Sistema completo de carrusel (~400 líneas)
+✅ lnv-components-advanced.js - Stepper, Rating, Chips, Popover (~700 líneas)
+✅ 10-components-advanced.css - Estilos para componentes avanzados (~600 líneas)
+✅ demo-components.html - Demo interactiva completa
+Archivos actualizados:
+✅ lnv-framework.css - Agregado import de componentes avanzados
+🎨 Componentes Implementados:
+1. Carousel/Slider 📸
+Autoplay, navegación, paginación
+Soporte táctil y teclado
+Responsive con breakpoints
+Múltiples slides por vista
+2. Stepper/Wizard 🎯
+Indicador de pasos multi-etapa
+Modo linear y no-linear
+Navegación programática
+Callbacks personalizados
+3. Rating (Estrellas) ⭐
+Interactivo y readonly
+Múltiples tamaños
+Hover effects
+Iconos personalizables
+4. Chips/Tags 🏷️
+Input dinámico de tags
+Variantes de color
+Remover con botón o teclado
+Prevención de duplicados
+5. Popover 💬
+Tooltips avanzados
+4 posiciones
+Triggers: click/hover
+Auto-posicionamiento
+📊 Estadísticas del Framework:
+Total archivos CSS: 11
+Total archivos JS: 5
+Componentes totales: 35+
+Líneas de código: ~10,000
+Utilidades JS: 50+
+🚀 ¿Continuamos con la SESIÓN 3?
+La próxima sesión incluye:
+
+Drawer/Offcanvas - Panel lateral deslizante
+Range Slider - Input range estilizado
+Date Picker - Selector de fechas
+File Upload - Drag & drop visual
+¿Quieres que continuemos ahora o necesitas revisar algo de lo que acabamos de crear? 😊
+
+ok, suena bien, este chat soporta todavia eso? o comenzamos en otro, que otras cosas faltan?
+
+¡Buena pregunta! Déjame revisar el estado actual:
+
+📊 Estado del Chat:
+Token usage actual: ~93,734 / 190,000 tokens usados Tokens restantes: ~96,266 ✅ Todavía tenemos bastante espacio
+
+Podemos continuar tranquilamente en este chat. Cuando lleguemos a ~85-90% de uso, te avisaré para crear un resumen y continuar en un chat nuevo.
+
+📝 Lo que FALTA por completar:
+SESIÓN 3 (Siguiente - podemos hacerlo ahora):
+❌ Drawer/Offcanvas - Panel lateral deslizante (CSS + JS)
+❌ Range Slider - Input range estilizado (CSS + JS)
+❌ Date Picker - Selector de fechas (CSS + JS)
+❌ File Upload - Drag & drop visual (CSS + JS)
+SESIÓN 4 (Componentes Avanzados):
+❌ Data Table - Tabla con sorting, filtering, pagination (CSS + JS)
+❌ Transfer List - Mover items entre listas (CSS + JS)
+❌ Tree View - Vista de árbol expandible (CSS + JS)
+❌ Image Gallery - Galería con lightbox (CSS + JS)
+MEJORAS PENDIENTES:
+❌ Mejoras de Accesibilidad:
+Focus visible mejorado
+Skip to content
+Reduced motion preferences
+High contrast mode
+Focus trap para modales
+ARIA labels automáticos
+❌ lnv-advanced.js (Funcionalidades opcionales):
+Infinite Scroll
+Lazy Loading
+Drag & Drop genérico
+Scroll Spy
+Smooth Scroll
+Parallax effects
+❌ Documentación:
+README.md completo
+Guía de inicio rápido
+Ejemplos de cada componente
+Página de documentación HTML
+💡 Mi Recomendación:
+Continuemos en ESTE chat con la SESIÓN 3 ahora. Son 4 componentes más que agregarán mucha funcionalidad al framework:
+
+Drawer es súper útil para menús móviles
+Range Slider mejora los inputs numéricos
+Date Picker es esencial para formularios
+File Upload con drag & drop es muy profesional
+¿Empezamos con la Sesión 3? 🚀
+
+O prefieres que:
+
+❓ Revisemos/mejoremos algo de lo ya creado
+❓ Hagamos pruebas de lo existente
+❓ Creemos la documentación primero
+❓ Continuemos con Sesión 3
+¿Qué prefieres? 😊
+
+continuemos con la session 3 mejor
+
+¡Perfecto! Vamos con la SESIÓN 3 🚀
+
+🎯 SESIÓN 3: Componentes de Interfaz Avanzada
+Vamos a crear:
+
+✅ Drawer/Offcanvas - Panel lateral deslizante
+✅ Range Slider - Input range estilizado
+✅ Date Picker - Selector de fechas
+✅ File Upload - Drag & drop visual
+Empecemos creando el CSS para estos componentes:
+
+1️⃣ Primero, agreguemos los estilos CSS:
+11-components-ui.css - Drawer, Range, DatePicker, FileUpload
+Código 
+Ahora creemos el JavaScript para estos componentes:
+
+lnv-components-ui.js - Drawer, Range, DatePicker, FileUpload
+Código 
+continua donde te quedaste, no actualices
+// Events this.input.addEventListener('click', () => this.toggle()); icon.addEventListener('click', () => this.toggle()); document.addEventListener
+empiesa otro nuevo
+
+lnv-components-ui.js - PARTE 2 (Continuación)
+Código 
+Perfecto! Ahora actualicemos el archivo principal CSS para incluir los nuevos componentes y creemos la demo:
+
+lnv-framework.css (Actualizado con icons)
+Código ∙ Versión 3 
+Ahora creemos el HTML de demostración para estos componentes:
+
+demo-ui-components.html - Demo UI Components
+Artefacto interactivo 
+continua donde te quedaste   <!-- EJEMPLO INTEGRADO -->
+    <div class="lnv-mb-8">
+      <h2 class="lnv-mb-4">💡 Ejemplo Integrado: Formulario Completo</h2>
+
+      <div class="lnv-card">
+        <div class="lnv-card-header">Registro de Paciente</div>
+        <div class="lnv-card-body">
+          <form>
+            <div class="lnv-row">
+              <div class="lnv-col-12 lnv-col-md-6">
+                <div class="lnv-form-group">
+                  <label class="lnv-form-label required">Nombre Completo</label>
+                  <input type="text" class="lnv-form-control" placeholder="Juan Pérez">
+                </div>
+              </div>
+
+              <div class="lnv-col-12 lnv-col-md-6">
+                <div class="lnv-form-group">
+                  <label class="lnv-form-label required">Fecha de Nacimiento</label>
+                  <input type="text" data
+
+demo-ui-components.html - Demo UI Components
+Artefacto interactivo ∙ Versión 2 
+Perfecto! Ahora necesitamos unir las dos partes del JavaScript de UI Components. Voy a crear el archivo completo unificado:
+
+lnv-components-ui.js - COMPLETO (Unificado)
+Código ∙ Versión 2 
+lnv-components-ui.js ya lo teniamos continuemos
+
+Tienes razón, ya teníamos lnv-components-ui.js completo en dos partes. Ahora vamos a crear el resumen final de la SESIÓN 3:
+
+RESUMEN-SESION-3.md - Documentación Completa
+Código 
+✅ SESIÓN 3 COMPLETADA CON ÉXITO 🎉
+📋 Resumen de lo logrado:
+Archivos creados:
+✅ 11-components-ui.css - Estilos para Drawer, Range, DatePicker, FileUpload (~800 líneas)
+✅ lnv-components-ui.js (Parte 1) - Drawer y RangeSlider (~400 líneas)
+✅ lnv-components-ui.js (Parte 2) - DatePicker y FileUpload (~500 líneas)
+✅ demo-ui-components.html - Demo interactiva completa
+Archivos actualizados:
+✅ lnv-framework.css - Agregado import de 11-components-ui.css
+🎨 Componentes Implementados:
+Drawer/Offcanvas 📂 - Panel lateral deslizante (4 posiciones)
+Range Slider 🎚️ - Input range estilizado con track progress
+Date Picker 📅 - Calendario completo con navegación
+File Upload 📤 - Drag & drop con validación y preview
+📊 Estado del Framework:
+Archivos CSS: 12
+Archivos JS: 6
+Componentes: 43+
+Líneas de código: ~12,500
+Progreso: 85% ✅
+🚀 Próximo Paso: SESIÓN 4
+Quedan 4 componentes avanzados:
+
+Data Table - Tabla con sorting, filtering, pagination
+Transfer List - Mover items entre listas
+Tree View - Vista de árbol expandible
+Image Gallery - Galería con lightbox
+Token usage actual: 116,494 / 190,000 (61% usado)
+Espacio restante: ✅ 73,506 tokens - SUFICIENTE para Sesión 4
+
+¿Continuamos con la SESIÓN 4 ahora? 🚀
+O prefieres:
+
+❓ Revisar/probar lo creado
+❓ Hacer ajustes
+❓ Crear documentación
+❓ Continuar con Sesión 4
+¿Qué prefieres? 😊
+
+podemos hacerla aqui o nos vamos a otro chat
+
+Revisemos el estado del chat:
+
+📊 Análisis del Chat Actual:
+Token usage: 116,494 / 190,000 tokens Porcentaje usado: 61.3% Tokens restantes: 73,506 ✅
+
+🤔 Mi Recomendación:
+Opción 1: Continuar AQUÍ ✅ (Recomendado)
+Ventajas:
+
+✅ Todavía tenemos 38.7% de espacio (~73K tokens)
+✅ La Sesión 4 son solo 4 componentes más (~3K líneas de código)
+✅ Estimado: necesitaremos ~20-25K tokens para completarla
+✅ Nos quedaría espacio para documentación final
+✅ TODO en un solo chat = más fácil de guardar
+Desventajas:
+
+⚠️ Si surge algún error, perdemos TODO el progreso
+⚠️ El chat se puede volver un poco lento (pero aún manejable)
+Opción 2: Nuevo Chat
+Ventajas:
+
+✅ Chat fresco y rápido
+✅ Backup del trabajo actual
+✅ Más espacio para experimentar
+Desventajas:
+
+❌ Necesitas copiar el resumen al nuevo chat
+❌ Pierdes el contexto histórico completo
+❌ Dos chats para gestionar
+💡 Mi Sugerencia:
+CONTINUAR AQUÍ y hacer lo siguiente:
+
+Completar SESIÓN 4 (4 componentes finales)
+Crear documentación básica (README.md)
+Si nos queda espacio: Mejoras finales
+Cuando lleguemos a ~85-90% (160K tokens), te aviso para:
+
+Crear resumen completo
+Guardar todo
+Mover a nuevo chat si necesario
+✅ Propuesta:
+¿Empezamos SESIÓN 4 AQUÍ MISMO?
+
+Con ~73K tokens restantes, podemos completar tranquilamente:
+
+✅ Data Table (~1,000 líneas)
+✅ Transfer List (~600 líneas)
+✅ Tree View (~700 líneas)
+✅ Image Gallery (~500 líneas)
+✅ README.md básico (~200 líneas)
+Total estimado: ~25-30K tokens (nos sobra espacio)
+
+¿Qué decides?
+
+A) Continuar aquí con Sesión 4 ✅ (Recomendado)
+B) Crear resumen y mover a nuevo chat
+C) Pausar y revisar lo creado primero
+continuemos
+
+¡Perfecto! Vamos con la SESIÓN 4 - Los últimos componentes avanzados 🚀
+
+🎯 SESIÓN 4: Componentes Avanzados Finales
+Vamos a crear:
+
+✅ Data Table - Tabla con sorting, filtering, pagination
+✅ Transfer List - Mover items entre listas
+✅ Tree View - Vista de árbol expandible
+✅ Image Gallery - Galería con lightbox
+1️⃣ Primero, creemos los estilos CSS:
+12-components-advanced2.css - DataTable, Transfer, Tree, Gallery
+Código 
+Ahora creemos el JavaScript para estos componentes:
+
+lnv-components-advanced2.js - DataTable, Transfer, Tree, Gallery
+Código 
+continua donde te quedaste
+
+lnv-components-advanced2.js - DataTable, Transfer, Tree, Gallery
+Código ∙ Versión 2 
+Perfecto! Ahora actualicemos el CSS principal y creemos la demo final:
+
+lnv-framework.css (Actualizado con icons)
+Código ∙ Versión 4 
+Ahora creemos la demo final HTML con todos estos componentes:
+
+demo-advanced2.html - Demo Componentes Finales
+Artefacto interactivo 
+
+
+
+
+/* 5. Animaciones y efectos */
+@import url('05-animations.css');
+
+/* 6. Utilidades CSS */
+@import url('06-utilities.css');
+
+/* 7. Responsive utilities */
+@import url('07-responsive.css');
+
+/* 8. Sistema de iconos */
+@import url('08-icons.css');
+
+/* 9. Estilos de impresión */
+@import url('09-print.css');
+
+/* 10. Componentes avanzados */
+@import url('10-components-advanced.css');
+
+/* 11. Componentes UI */
+@import url('11-components-ui.css');
+
+/* 12. Componentes avanzados 2 */
+@import url('12-components-advanced2.css');
+
+
+/**
+ * ====================================
+ * ORDEN DE CARGA (IMPORTANTE)
+ * ====================================
+ * 
+ * 1. core.css       → Define variables CSS necesarias para todo
+ * 2. reset.css      → Normaliza estilos del navegador
+ * 3. layout.css     → Estructura base (grid, containers)
+ * 4. components.css → Componentes visuales básicos
+ * 5. animations.css → Efectos y transiciones
+ * 6. utilities.css  → Clases de utilidad
+ * 7. responsive.css → Utilities responsive
+ * 8. icons.css      → Sistema de iconos
+ * 9. print.css      → Estilos de impresión
+ * 10. components-advanced.css → Componentes avanzados (Carousel, Stepper, Rating, Chips)
+ * 11. components-ui.css → Componentes UI (Drawer, Range, DatePicker, FileUpload)
+ * 12. components-advanced2.css → Componentes avanzados 2 (DataTable, Transfer, Tree, Gallery)
+ * 
+ * NO CAMBIAR EL ORDEN - Los archivos dependen entre sí
+ */
