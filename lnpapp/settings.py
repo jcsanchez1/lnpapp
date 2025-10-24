@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'smart_selects',  # <-- AGREGAR AQUÍ
-
     'examen',
 ]
 

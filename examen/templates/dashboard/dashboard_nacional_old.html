@@ -1,0 +1,1033 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load dashboard_extras %}
+
+{% block title %}Dashboard Nacional - LNP{% endblock %}
+
+{% block breadcrumb %}
+<li class="lnv-breadcrumb-item">
+    <a href="{% url 'dashboard_nacional' %}">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</li>
+<li class="lnv-breadcrumb-item active">
+    Dashboard Nacional
+</li>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stats-card {
+        background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .stats-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .stats-card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stats-card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+  }
+
+  .stats-card-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+  }
+
+  .chart-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem;
+  }
+
+  .chart-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+  }
+
+  .table-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem;
+    overflow-x: auto;
+  }
+
+  .badge-pos {
+    background: #dc3545;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .badge-neg {
+    background: #28a745;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="dashboard-nacional">
+  <h2 style="margin-bottom: 1.5rem; color: #2c3e50">
+    <i class="fas fa-chart-line"></i> Dashboard Nacional
+  </h2>
+
+  <!-- === TARJETAS DE ESTADÍSTICAS === -->
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    "
+  >
+    <!-- Total Muestras -->
+    <div class="stats-card">
+      <div class="stats-card-icon" style="color: #007bff">
+        <i class="fas fa-flask"></i>
+      </div>
+      <div class="stats-card-value">{{ total_muestras }}</div>
+      <div class="stats-card-label">Total Muestras</div>
+    </div>
+
+    <!-- Positivas -->
+    <div class="stats-card">
+      <div class="stats-card-icon" style="color: #dc3545">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+      <div class="stats-card-value">{{ total_positivas }}</div>
+      <div class="stats-card-label">Muestras Positivas</div>
+    </div>
+
+    <!-- Negativas -->
+    <div class="stats-card">
+      <div class="stats-card-icon" style="color: #28a745">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="stats-card-value">{{ total_negativas }}</div>
+      <div class="stats-card-label">Muestras Negativas</div>
+    </div>
+
+    <!-- Tasa Positividad -->
+    <div class="stats-card">
+      <div class="stats-card-icon" style="color: #ffc107">
+        <i class="fas fa-percentage"></i>
+      </div>
+      <div class="stats-card-value">{{ tasa_positividad }}%</div>
+      <div class="stats-card-label">Tasa de Positividad</div>
+    </div>
+  </div>
+
+  <!-- === GRÁFICOS === -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem">
+    <!-- Gráfico de Tendencia -->
+    <div class="chart-container" style="grid-column: 1 / -1">
+      <div class="chart-title">
+        <i class="fas fa-chart-line"></i> Tendencia por Semana Epidemiológica
+        (Últimas 12 semanas)
+      </div>
+      <canvas id="trendChart" height="80"></canvas>
+    </div>
+
+    <!-- Top 5 Parásitos -->
+    <div class="chart-container">
+      <div class="chart-title">
+        <i class="fas fa-virus"></i> Top 5 Parásitos Más Frecuentes
+      </div>
+      <canvas id="parasitosChart"></canvas>
+    </div>
+
+    <!-- Mapa de Regiones -->
+    <div class="chart-container">
+      <div class="chart-title">
+        <i class="fas fa-map-marked-alt"></i> Muestras por Región
+      </div>
+      <canvas id="regionesChart"></canvas>
+    </div>
+  </div>
+
+  <!-- === SECCIÓN CON TABS === -->
+  <div class="table-container">
+    <div class="chart-title" style="margin-bottom: 0">
+      <i class="fas fa-chart-bar"></i> Análisis Detallado
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div style="border-bottom: 2px solid #dee2e6; margin-bottom: 1.5rem">
+      <ul
+        style="
+          display: flex;
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          gap: 0.5rem;
+        "
+      >
+        <li>
+          <button
+            class="tab-button active"
+            onclick="switchTab('tab1')"
+            id="btn-tab1"
+            style="
+              background: white;
+              border: none;
+              padding: 12px 24px;
+              cursor: pointer;
+              font-weight: 600;
+              border-bottom: 3px solid #007bff;
+              color: #007bff;
+              transition: all 0.3s;
+            "
+          >
+            <i class="fas fa-table"></i> Matriz Top 5
+          </button>
+        </li>
+        <li>
+          <button
+            class="tab-button"
+            onclick="switchTab('tab2')"
+            id="btn-tab2"
+            style="
+              background: white;
+              border: none;
+              padding: 12px 24px;
+              cursor: pointer;
+              font-weight: 600;
+              border-bottom: 3px solid transparent;
+              color: #6c757d;
+              transition: all 0.3s;
+            "
+          >
+            <i class="fas fa-list"></i> 20 Parásitos
+          </button>
+        </li>
+        <li>
+          <button
+            class="tab-button"
+            onclick="switchTab('tab3')"
+            id="btn-tab3"
+            style="
+              background: white;
+              border: none;
+              padding: 12px 24px;
+              cursor: pointer;
+              font-weight: 600;
+              border-bottom: 3px solid transparent;
+              color: #6c757d;
+              transition: all 0.3s;
+            "
+          >
+            <i class="fas fa-map-marked-alt"></i> Mapa Honduras
+          </button>
+        </li>
+        <li>
+          <button
+            class="tab-button"
+            onclick="switchTab('tab4')"
+            id="btn-tab4"
+            style="
+              background: white;
+              border: none;
+              padding: 12px 24px;
+              cursor: pointer;
+              font-weight: 600;
+              border-bottom: 3px solid transparent;
+              color: #6c757d;
+              transition: all 0.3s;
+            "
+          >
+            <i class="fas fa-globe-americas"></i> Mapa Interactivo
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab 1: Matriz Región x Parásito (Top 5) -->
+    <div id="tab1" class="tab-content">
+      {% if top_5_nombres %}
+      <div style="overflow-x: auto">
+        <table style="width: 100%; border-collapse: collapse">
+          <thead>
+            <tr style="background: #f8f9fa; border-bottom: 2px solid #dee2e6">
+              <th style="padding: 12px; text-align: left">Región</th>
+              {% for parasito in top_5_nombres %}
+              <th style="padding: 12px; text-align: center; font-size: 0.85rem">
+                {{ parasito }}
+              </th>
+              {% endfor %}
+              <th style="padding: 12px; text-align: center; font-weight: 700">
+                Total
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for fila in matriz_region_parasito %}
+            <tr style="border-bottom: 1px solid #dee2e6">
+              <td style="padding: 12px; font-weight: 600">
+                Región {{ fila.region.numero_region }}
+              </td>
+
+              {% for parasito in top_5_nombres %}
+              <td style="padding: 12px; text-align: center">
+                {% with count=fila.parasitos|get_item:parasito %} {% if count >
+                0 %}
+                <span
+                  style="
+                                        background: {% if count > 5 %}#dc3545{% elif count > 2 %}#ffc107{% else %}#28a745{% endif %};
+                                        color: white;
+                                        padding: 4px 10px;
+                                        border-radius: 6px;
+                                        font-weight: 600;
+                                    "
+                  >{{ count }}</span
+                >
+                {% else %}
+                <span style="color: #dee2e6">—</span>
+                {% endif %} {% endwith %}
+              </td>
+              {% endfor %}
+
+              <td style="padding: 12px; text-align: center; font-weight: 700">
+                {{ fila.total }}
+              </td>
+            </tr>
+            {% endfor %}
+
+            <!-- Fila de totales -->
+            <tr
+              style="
+                background: #f8f9fa;
+                border-top: 2px solid #dee2e6;
+                font-weight: 700;
+              "
+            >
+              <td style="padding: 12px">TOTAL</td>
+              {% for parasito in top_5_nombres %}
+              <td style="padding: 12px; text-align: center">
+                {{ totales_por_parasito|get_item:parasito }}
+              </td>
+              {% endfor %}
+              <td style="padding: 12px; text-align: center">
+                {{ total_positivas }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p style="text-align: center; padding: 20px; color: #6c757d">
+        No hay suficientes datos para generar la matriz
+      </p>
+      {% endif %}
+    </div>
+
+    <!-- Tab 2: Vista Completa de 20 Parásitos -->
+    <div id="tab2" class="tab-content" style="display: none">
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 1rem;
+        "
+      >
+        {% for parasito in todos_parasitos %}
+        <div
+          style="
+                background: {% if parasito.total > 10 %}#fff5f5{% elif parasito.total > 5 %}#fffbeb{% elif parasito.total > 0 %}#f0fdf4{% else %}#f8f9fa{% endif %};
+                border-left: 4px solid {% if parasito.total > 10 %}#dc3545{% elif parasito.total > 5 %}#ffc107{% elif parasito.total > 0 %}#28a745{% else %}#dee2e6{% endif %};
+                padding: 1rem;
+                border-radius: 8px;
+            "
+        >
+          <div style="font-weight: 600; margin-bottom: 0.5rem; color: #2c3e50">
+            {{ parasito.nombre }}
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <span
+              style="font-size: 1.5rem; font-weight: 700; color: {% if parasito.total > 10 %}#dc3545{% elif parasito.total > 5 %}#ffc107{% elif parasito.total > 0 %}#28a745{% else %}#6c757d{% endif %};"
+            >
+              {{ parasito.total }}
+            </span>
+            <span style="font-size: 0.9rem; color: #6c757d">
+              {{ parasito.porcentaje }}%
+            </span>
+          </div>
+          <div style="margin-top: 0.5rem; font-size: 0.85rem; color: #6c757d">
+            muestras positivas
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Tab 3: Mapa de Honduras -->
+    <div id="tab3" class="tab-content" style="display: none">
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem">
+        <!-- Mapa visual (simplificado con bloques) -->
+        <div>
+          <h4 style="margin-bottom: 1rem; color: #2c3e50">
+            <i class="fas fa-map"></i> Distribución Geográfica
+          </h4>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 0.5rem;
+            "
+          >
+            {% for region in mapa_regiones_data %}
+            <div
+              style="
+                        background: {{ region.color }};
+                        padding: 1rem;
+                        border-radius: 8px;
+                        text-align: center;
+                        cursor: pointer;
+                        transition: transform 0.2s;
+                    "
+              onmouseover="this.style.transform='scale(1.05)'"
+              onmouseout="this.style.transform='scale(1)'"
+            >
+              <div
+                style="font-weight: 700; font-size: 1.2rem; color: {% if region.intensidad == 'sin-datos' %}#6c757d{% else %}white{% endif %};"
+              >
+                {{ region.numero }}
+              </div>
+              <div
+                style="font-size: 0.75rem; color: {% if region.intensidad == 'sin-datos' %}#6c757d{% else %}white{% endif %}; margin-top: 0.25rem;"
+              >
+                {{ region.tasa_positividad }}%
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+          <!-- Leyenda -->
+          <div
+            style="
+              margin-top: 1.5rem;
+              display: flex;
+              gap: 1rem;
+              justify-content: center;
+              flex-wrap: wrap;
+            "
+          >
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  background: #dc3545;
+                  border-radius: 4px;
+                "
+              ></div>
+              <span style="font-size: 0.85rem">Alta (≥15%)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  background: #ffc107;
+                  border-radius: 4px;
+                "
+              ></div>
+              <span style="font-size: 0.85rem">Media (8-14%)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  background: #28a745;
+                  border-radius: 4px;
+                "
+              ></div>
+              <span style="font-size: 0.85rem">Baja (1-7%)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  background: #e9ecef;
+                  border-radius: 4px;
+                "
+              ></div>
+              <span style="font-size: 0.85rem">Sin datos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista de regiones -->
+        <div>
+          <h4 style="margin-bottom: 1rem; color: #2c3e50">
+            <i class="fas fa-list"></i> Detalle por Región
+          </h4>
+          <div style="max-height: 500px; overflow-y: auto">
+            {% for region in mapa_regiones_data %}
+            <div
+              style="
+                        padding: 0.75rem;
+                        border-left: 4px solid {{ region.color }};
+                        background: #f8f9fa;
+                        margin-bottom: 0.5rem;
+                        border-radius: 4px;
+                    "
+            >
+              <div style="font-weight: 600; margin-bottom: 0.25rem">
+                Región {{ region.numero }}: {{ region.nombre|truncatewords:3 }}
+              </div>
+              <div style="font-size: 0.85rem; color: #6c757d">
+                Muestras: {{ region.total_muestras }} | Positivas: {{
+                region.total_positivas }} ({{ region.tasa_positividad }}%)
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Tab 4: Mapa Interactivo con Leaflet -->
+    <div id="tab4" class="tab-content" style="display: none">
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem">
+        <!-- Mapa -->
+        <div>
+          <div
+            id="map-honduras"
+            style="
+              height: 600px;
+              border-radius: 8px;
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            "
+          ></div>
+
+          <!-- Leyenda -->
+          <div
+            style="
+              margin-top: 1rem;
+              display: flex;
+              gap: 1rem;
+              justify-content: center;
+              flex-wrap: wrap;
+            "
+          >
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  background: #dc3545;
+                  border-radius: 4px;
+                "
+              ></div>
+              <span style="font-size: 0.85rem">Alta (≥15%)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  background: #ffc107;
+                  border-radius: 4px;
+                "
+              ></div>
+              <span style="font-size: 0.85rem">Media (8-14%)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  background: #28a745;
+                  border-radius: 4px;
+                "
+              ></div>
+              <span style="font-size: 0.85rem">Baja (1-7%)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  background: #e9ecef;
+                  border: 1px solid #dee2e6;
+                  border-radius: 4px;
+                "
+              ></div>
+              <span style="font-size: 0.85rem">Sin datos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel lateral con datos -->
+        <div>
+          <h4 style="margin-bottom: 1rem; color: #2c3e50">
+            <i class="fas fa-chart-bar"></i> Ranking Departamental
+          </h4>
+          <div style="max-height: 600px; overflow-y: auto">
+            {% for depto in mapa_departamentos_data|dictsort:"tasa_positividad"
+            reversed %}
+            <div
+              style="
+                    padding: 0.75rem;
+                    border-left: 4px solid {% if depto.tasa_positividad >= 15 %}#dc3545{% elif depto.tasa_positividad >= 8 %}#ffc107{% elif depto.tasa_positividad > 0 %}#28a745{% else %}#e9ecef{% endif %};
+                    background: #f8f9fa;
+                    margin-bottom: 0.5rem;
+                    border-radius: 4px;
+                "
+            >
+              <div style="font-weight: 600; margin-bottom: 0.25rem">
+                {{ depto.nombre }}
+              </div>
+              <div
+                style="
+                  font-size: 0.85rem;
+                  color: #6c757d;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Muestras: {{ depto.total_muestras }} | Positivas: {{
+                depto.total_positivas }} ({{ depto.tasa_positividad }}%)
+              </div>
+              {% if depto.top_parasitos %}
+              <div style="font-size: 0.75rem; color: #495057">
+                <strong>Top parásitos:</strong>
+                {% for parasito, count in depto.top_parasitos %} {{
+                parasito|truncatewords:2 }} ({{ count }}){% if not forloop.last
+                %}, {% endif %} {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      // Ocultar todos los tabs
+      document.querySelectorAll(".tab-content").forEach((tab) => {
+        tab.style.display = "none";
+      });
+
+      // Desactivar todos los botones
+      document.querySelectorAll(".tab-button").forEach((btn) => {
+        btn.style.borderBottom = "3px solid transparent";
+        btn.style.color = "#6c757d";
+      });
+
+      // Mostrar tab seleccionado
+      document.getElementById(tabId).style.display = "block";
+
+      // Activar botón correspondiente
+      const button = document.getElementById("btn-" + tabId);
+      button.style.borderBottom = "3px solid #007bff";
+      button.style.color = "#007bff";
+    }
+  </script>
+
+  <!-- === TOP 10 CENTROS === -->
+  <div class="table-container">
+    <div class="chart-title">
+      <i class="fas fa-hospital"></i> Top 10 Centros Más Activos
+    </div>
+    <table style="width: 100%; border-collapse: collapse">
+      <thead>
+        <tr style="background: #f8f9fa; border-bottom: 2px solid #dee2e6">
+          <th style="padding: 12px; text-align: left">Posición</th>
+          <th style="padding: 12px; text-align: left">Centro</th>
+          <th style="padding: 12px; text-align: left">Región</th>
+          <th style="padding: 12px; text-align: center">Muestras</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for centro in top_centros %}
+        <tr style="border-bottom: 1px solid #dee2e6">
+          <td style="padding: 12px; font-weight: 600">
+            {% if forloop.counter == 1 %}🥇 {% elif forloop.counter == 2 %}🥈 {%
+            elif forloop.counter == 3 %}🥉 {% else %}{{ forloop.counter }} {%
+            endif %}
+          </td>
+          <td style="padding: 12px">{{ centro.nombre }}</td>
+          <td style="padding: 12px">
+            Región {{ centro.region.numero_region }}
+          </td>
+          <td style="padding: 12px; text-align: center; font-weight: 600">
+            {{ centro.num_muestras }}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td
+            colspan="4"
+            style="padding: 20px; text-align: center; color: #6c757d"
+          >
+            No hay datos disponibles
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- === ÚLTIMAS MUESTRAS === -->
+  <div class="table-container">
+    <div class="chart-title">
+      <i class="fas fa-history"></i> Últimas 10 Muestras Registradas
+    </div>
+    <table style="width: 100%; border-collapse: collapse">
+      <thead>
+        <tr style="background: #f8f9fa; border-bottom: 2px solid #dee2e6">
+          <th style="padding: 12px; text-align: left">Nº Examen</th>
+          <th style="padding: 12px; text-align: left">Paciente (DNI)</th>
+          <th style="padding: 12px; text-align: left">Centro</th>
+          <th style="padding: 12px; text-align: center">Fecha</th>
+          <th style="padding: 12px; text-align: center">Semana</th>
+          <th style="padding: 12px; text-align: center">Resultado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for muestra in ultimas_muestras %}
+        <tr style="border-bottom: 1px solid #dee2e6">
+          <td style="padding: 12px; font-family: monospace">
+            {{ muestra.numero_examen }}
+          </td>
+          <td style="padding: 12px">{{ muestra.expediente.dni }}</td>
+          <td style="padding: 12px">{{ muestra.centro_atencion.codigo }}</td>
+          <td style="padding: 12px; text-align: center">
+            {{ muestra.fecha_examen|date:"d/m/Y" }}
+          </td>
+          <td style="padding: 12px; text-align: center">
+            {% if muestra.semana_numero %} Sem {{ muestra.semana_numero }} {%
+            else %}
+            <span style="color: #dc3545">Sin calcular</span>
+            {% endif %}
+          </td>
+          <td style="padding: 12px; text-align: center">
+            {% if muestra.resultado == 'POS' %}
+            <span class="badge-pos">POSITIVO</span>
+            {% else %}
+            <span class="badge-neg">NEGATIVO</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td
+            colspan="6"
+            style="padding: 20px; text-align: center; color: #6c757d"
+          >
+            No hay muestras registradas
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // === GRÁFICO DE TENDENCIA POR SEMANA ===
+  const trendCtx = document.getElementById('trendChart');
+  new Chart(trendCtx, {
+      type: 'line',
+      data: {
+          labels: {{ semanas_labels|safe }},
+          datasets: [
+              {
+                  label: 'Positivas',
+                  data: {{ semanas_positivas|safe }},
+                  borderColor: '#dc3545',
+                  backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                  tension: 0.4,
+                  fill: true
+              },
+              {
+                  label: 'Negativas',
+                  data: {{ semanas_negativas|safe }},
+                  borderColor: '#28a745',
+                  backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                  tension: 0.4,
+                  fill: true
+              }
+          ]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+              legend: {
+                  position: 'top',
+              },
+              title: {
+                  display: false
+              }
+          },
+          scales: {
+              y: {
+                  beginAtZero: true,
+                  ticks: {
+                      precision: 0
+                  }
+              }
+          }
+      }
+  });
+
+  // === GRÁFICO TOP 5 PARÁSITOS ===
+  const parasitosCtx = document.getElementById('parasitosChart');
+  const parasitosData = [
+      {% for parasito, count in top_parasitos %}
+      { name: "{{ parasito }}", count: {{ count }} }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+  ];
+
+  new Chart(parasitosCtx, {
+      type: 'bar',
+      data: {
+          labels: parasitosData.map(p => p.name),
+          datasets: [{
+              label: 'Frecuencia',
+              data: parasitosData.map(p => p.count),
+              backgroundColor: [
+                  '#dc3545',
+                  '#fd7e14',
+                  '#ffc107',
+                  '#28a745',
+                  '#17a2b8'
+              ]
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          indexAxis: 'y',
+          plugins: {
+              legend: {
+                  display: false
+              }
+          },
+          scales: {
+              x: {
+                  beginAtZero: true,
+                  ticks: {
+                      precision: 0
+                  }
+              }
+          }
+      }
+  });
+
+  // === GRÁFICO POR REGIÓN ===
+  const regionesCtx = document.getElementById('regionesChart');
+  const regionesData = [
+      {% for dato in regiones_data %}
+      { region: "Región {{ dato.region.numero_region }}", muestras: {{ dato.total_muestras }} }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+  ];
+
+  new Chart(regionesCtx, {
+      type: 'doughnut',
+      data: {
+          labels: regionesData.map(r => r.region),
+          datasets: [{
+              label: 'Muestras',
+              data: regionesData.map(r => r.muestras),
+              backgroundColor: [
+                  '#007bff',
+                  '#28a745',
+                  '#ffc107',
+                  '#dc3545',
+                  '#6f42c1',
+                  '#17a2b8'
+              ]
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+              legend: {
+                  position: 'right'
+              }
+          }
+      }
+  });
+</script>
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+// Datos de departamentos desde Django
+const deptoData = {
+    {% for depto in mapa_departamentos_data %}
+    "{{ depto.codigo }}": {
+        nombre: "{{ depto.nombre }}",
+        total_muestras: {{ depto.total_muestras }},
+        total_positivas: {{ depto.total_positivas }},
+        tasa_positividad: {{ depto.tasa_positividad }},
+        top_parasitos: [
+            {% for parasito, count in depto.top_parasitos %}
+            { nombre: "{{ parasito }}", count: {{ count }} }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+};
+
+// Función para obtener color según tasa
+function getColor(tasa) {
+    return tasa >= 15 ? '#dc3545' :
+           tasa >= 8  ? '#ffc107' :
+           tasa > 0   ? '#28a745' :
+                        '#e9ecef';
+}
+
+// Función para estilizar cada departamento
+function style(feature) {
+    const codigo = feature.properties.codigo;
+    const data = deptoData[codigo];
+    const tasa = data ? data.tasa_positividad : 0;
+    
+    return {
+        fillColor: getColor(tasa),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        fillOpacity: 0.7
+    };
+}
+
+// Inicializar mapa (se ejecutará cuando se abra el tab)
+let mapInitialized = false;
+let map;
+
+function initMap() {
+    if (mapInitialized) return;
+    
+    // Crear mapa centrado en Honduras
+    map = L.map('map-honduras').setView([14.8, -86.5], 7);
+    
+    // Agregar tiles (mapa base)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 10,
+        minZoom: 6
+    }).addTo(map);
+    
+    // Cargar GeoJSON
+    fetch("{% static 'geojson/honduras_departamentos.json' %}")
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                style: style,
+                onEachFeature: function(feature, layer) {
+                    const codigo = feature.properties.codigo;
+                    const deptoInfo = deptoData[codigo];
+                    
+                    if (deptoInfo) {
+                        // Popup con detalles
+                        let popupContent = `
+                            <div style="min-width: 200px;">
+                                <h4 style="margin: 0 0 0.5rem 0; color: #2c3e50;">${deptoInfo.nombre}</h4>
+                                <div style="margin-bottom: 0.5rem;">
+                                    <strong>Total muestras:</strong> ${deptoInfo.total_muestras}<br>
+                                    <strong>Positivas:</strong> ${deptoInfo.total_positivas}<br>
+                                    <strong>Tasa:</strong> <span style="color: ${getColor(deptoInfo.tasa_positividad)}; font-weight: 700;">${deptoInfo.tasa_positividad}%</span>
+                                </div>
+                        `;
+                        
+                        if (deptoInfo.top_parasitos.length > 0) {
+                            popupContent += `<div style="border-top: 1px solid #dee2e6; padding-top: 0.5rem; margin-top: 0.5rem;">
+                                <strong>Top parásitos:</strong><br>`;
+                            deptoInfo.top_parasitos.forEach(p => {
+                                popupContent += `• ${p.nombre}: ${p.count}<br>`;
+                            });
+                            popupContent += `</div>`;
+                        }
+                        
+                        popupContent += `</div>`;
+                        
+                        layer.bindPopup(popupContent);
+                        
+                        // Tooltip al hacer hover
+                        layer.bindTooltip(`${deptoInfo.nombre}: ${deptoInfo.tasa_positividad}%`, {
+                            permanent: false,
+                            direction: 'top'
+                        });
+                        
+                        // Efectos hover
+                        layer.on({
+                            mouseover: function(e) {
+                                const layer = e.target;
+                                layer.setStyle({
+                                    weight: 4,
+                                    fillOpacity: 0.9
+                                });
+                            },
+                            mouseout: function(e) {
+                                const layer = e.target;
+                                layer.setStyle({
+                                    weight: 2,
+                                    fillOpacity: 0.7
+                                });
+                            }
+                        });
+                    }
+                }
+            }).addTo(map);
+        });
+    
+    mapInitialized = true;
+}
+
+// Modificar la función switchTab para inicializar el mapa
+const originalSwitchTab = switchTab;
+switchTab = function(tabId) {
+    originalSwitchTab(tabId);
+    
+    // Si se abre el tab del mapa, inicializarlo
+    if (tabId === 'tab4') {
+        setTimeout(initMap, 100);
+    }
+};
+</script>
+{% endblock %}
