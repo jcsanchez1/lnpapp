@@ -1132,3 +1132,381 @@ def save(self, *args, **kwargs):
         }
         
         return json.dumps(data, ensure_ascii=False, indent=2)
+    
+# ==================== SISTEMA DE ALERTAS EPIDEMIOLÓGICAS ====================
+
+# ==================== SISTEMA DE ALERTAS EPIDEMIOLÓGICAS ====================
+
+class ConfiguracionAlerta(models.Model):
+    """
+    Configuración de alertas epidemiológicas por parásito.
+    Permite al usuario LNP configurar qué parásitos monitorear y sus umbrales.
+    
+    LÓGICA DE UMBRALES:
+    - Parásitos comunes (Giardia, Ascaris): emergencia > alerta > precaución
+      Ejemplo: precaución=10, alerta=20, emergencia=50
+    
+    - Parásitos críticos (Triquina): emergencia=1, otros=999
+      Cualquier caso dispara alerta roja inmediata
+    """
+    
+    # === CHOICES DE PARÁSITOS (21 total) ===
+    PARASITO_CHOICES = [
+        # PROTOZOOS - AMEBAS
+        ('entamoeba_histolytica', 'Entamoeba histolytica'),
+        ('entamoeba_coli', 'Entamoeba coli'),
+        ('entamoeba_hartmanni', 'Entamoeba hartmanni'),
+        ('endolimax_nana', 'Endolimax nana'),
+        ('iodamoeba_butschlii', 'Iodamoeba bütschlii'),
+        
+        # PROTOZOOS - FLAGELADOS
+        ('giardia_intestinalis', 'Giardia intestinalis'),
+        ('pentatrichomonas_hominis', 'Pentatrichomonas hominis'),
+        ('chilomastix_mesnili', 'Chilomastix mesnili'),
+        
+        # PROTOZOOS - CILIADOS
+        ('balantidium_coli', 'Balantidium coli'),
+        
+        # BLASTOCYSTIS
+        ('blastocystis_sp', 'Blastocystis sp'),
+        
+        # COCCIDIOS
+        ('cystoisospora_belli', 'Cystoisospora belli'),
+        ('cyclospora_cayetanensis', 'Cyclospora cayetanensis'),
+        ('cryptosporidium_spp', 'Cryptosporidium spp'),
+        
+        # HELMINTOS - NEMATODOS
+        ('ascaris_lumbricoides', 'Ascaris lumbricoides'),
+        ('trichuris_trichiura', 'Trichuris trichiura'),
+        ('necator_americanus', 'Necator americanus'),
+        ('strongyloides_stercoralis', 'Strongyloides stercoralis'),
+        ('enterobius_vermicularis', 'Enterobius vermicularis'),
+        
+        # HELMINTOS - CESTODOS
+        ('taenia_spp', 'Taenia spp'),
+        ('hymenolepis_diminuta', 'Hymenolepis diminuta'),
+        ('rodentolepis_nana', 'Rodentolepis nana'),
+    ]
+    
+    # === IDENTIFICACIÓN DEL PARÁSITO ===
+    parasito_campo = models.CharField(
+        max_length=100,
+        unique=True,
+        choices=PARASITO_CHOICES,
+        verbose_name="Parásito a Monitorear",
+        help_text="Seleccione el parásito de la lista"
+    )
+    
+    # === ESTADO ===
+    activo = models.BooleanField(
+        default=True,
+        verbose_name="¿Alerta Activa?",
+        help_text="Desactivar para detener el monitoreo de este parásito"
+    )
+    
+    # === UMBRALES DE ALERTA ===
+    umbral_precaucion = models.IntegerField(
+        default=10,
+        verbose_name="Umbral Precaución (🟡)",
+        help_text="Número de casos para alerta amarilla. Para parásitos comunes: valor bajo (ej: 10)"
+    )
+    umbral_alerta = models.IntegerField(
+        default=20,
+        verbose_name="Umbral Alerta (🟠)",
+        help_text="Número de casos para alerta naranja. Para parásitos comunes: valor medio (ej: 20)"
+    )
+    umbral_emergencia = models.IntegerField(
+        default=1,
+        verbose_name="Umbral Emergencia (🔴)",
+        help_text="Número de casos para alerta roja. Para parásitos críticos usar 1, para comunes usar valor alto (ej: 50)"
+    )
+    
+    # === VENTANA DE TIEMPO ===
+    ventana_tiempo_dias = models.IntegerField(
+        default=7,
+        verbose_name="Ventana de Tiempo (días)",
+        help_text="Período para contar casos (7=semana, 30=mes)"
+    )
+    
+    # === ESCALAMIENTO DE NOTIFICACIONES ===
+    notificar_centro = models.BooleanField(
+        default=True,
+        verbose_name="Notificar a Centro de Atención",
+        help_text="Usuario CAT que registró la muestra"
+    )
+    notificar_regional = models.BooleanField(
+        default=True,
+        verbose_name="Notificar a Regional",
+        help_text="Microbiólogo/usuario REG de la región"
+    )
+    notificar_nacional = models.BooleanField(
+        default=True,
+        verbose_name="Notificar a Nacional (LNP)",
+        help_text="Usuarios LNP a nivel nacional"
+    )
+    
+    # === INFORMACIÓN ADICIONAL ===
+    descripcion = models.TextField(
+        blank=True,
+        verbose_name="Descripción",
+        help_text="Información sobre por qué este parásito requiere monitoreo especial"
+    )
+    medidas_recomendadas = models.TextField(
+        blank=True,
+        verbose_name="Medidas Recomendadas",
+        help_text="Acciones a tomar cuando se detecta esta alerta"
+    )
+    
+    # === AUDITORÍA ===
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_modificacion = models.DateTimeField(auto_now=True)
+    creado_por = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        related_name='configuraciones_alertas_creadas',
+        verbose_name="Creado por"
+    )
+    
+    class Meta:
+        verbose_name = 'Configuración de Alerta'
+        verbose_name_plural = 'Configuraciones de Alertas'
+        ordering = ['parasito_campo']
+    
+    def __str__(self):
+        estado = "✅ ACTIVA" if self.activo else "❌ INACTIVA"
+        parasito_display = self.get_parasito_campo_display()
+        return f"{parasito_display} - {estado}"
+    
+    @property
+    def parasito_nombre(self):
+        """Retorna el nombre legible del parásito"""
+        return self.get_parasito_campo_display()
+    
+    def clean(self):
+        """Validar que los umbrales sean válidos"""
+        from django.core.exceptions import ValidationError
+        
+        # Solo validar que sean positivos
+        if self.umbral_precaucion < 1:
+            raise ValidationError({
+                'umbral_precaucion': 'Debe ser al menos 1 caso'
+            })
+        
+        if self.umbral_alerta < 1:
+            raise ValidationError({
+                'umbral_alerta': 'Debe ser al menos 1 caso'
+            })
+        
+        if self.umbral_emergencia < 1:
+            raise ValidationError({
+                'umbral_emergencia': 'Debe ser al menos 1 caso'
+            })
+        
+        if self.ventana_tiempo_dias < 1:
+            raise ValidationError({
+                'ventana_tiempo_dias': 'La ventana de tiempo debe ser al menos 1 día'
+            })
+        
+        # NOTA: No validamos el orden de umbrales porque depende del tipo de parásito:
+        # - Parásitos comunes: emergencia > alerta > precaución (ej: 50 > 20 > 10)
+        # - Parásitos críticos: emergencia = 1, alerta = 999, precaución = 999
+
+class Alerta(models.Model):
+    """
+    Registro de alertas epidemiológicas generadas automáticamente.
+    Se crea cuando se detecta un parásito monitoreado que supera los umbrales.
+    """
+    
+    NIVEL_CHOICES = [
+        ('VERDE', '🟢 Normal'),
+        ('AMARILLO', '🟡 Precaución'),
+        ('NARANJA', '🟠 Alerta'),
+        ('ROJO', '🔴 Emergencia'),
+    ]
+    
+    ESTADO_CHOICES = [
+        ('ACTIVA', 'Activa'),
+        ('EN_PROCESO', 'En Proceso'),
+        ('RESUELTA', 'Resuelta'),
+        ('FALSA_ALARMA', 'Falsa Alarma'),
+    ]
+    
+    # === RELACIONES ===
+    configuracion = models.ForeignKey(
+        ConfiguracionAlerta,
+        on_delete=models.PROTECT,
+        related_name='alertas_generadas',
+        verbose_name="Configuración de Alerta"
+    )
+    muestra_origen = models.ForeignKey(
+        'Muestra',
+        on_delete=models.PROTECT,
+        related_name='alertas',
+        verbose_name="Muestra que Disparó la Alerta",
+        help_text="Primera muestra que generó esta alerta"
+    )
+    
+    # === NIVEL Y ESTADO ===
+    nivel = models.CharField(
+        max_length=10,
+        choices=NIVEL_CHOICES,
+        verbose_name="Nivel de Alerta"
+    )
+    estado = models.CharField(
+        max_length=15,
+        choices=ESTADO_CHOICES,
+        default='ACTIVA',
+        verbose_name="Estado de la Alerta"
+    )
+    
+    # === UBICACIÓN GEOGRÁFICA ===
+    centro_atencion = models.ForeignKey(
+        CentroAtencion,
+        on_delete=models.PROTECT,
+        related_name='alertas',
+        verbose_name="Centro de Atención"
+    )
+    region = models.ForeignKey(
+        Region,
+        on_delete=models.PROTECT,
+        related_name='alertas',
+        verbose_name="Región Sanitaria"
+    )
+    
+    # === CONTADORES ===
+    numero_casos = models.IntegerField(
+        default=1,
+        verbose_name="Número de Casos Detectados",
+        help_text="Casos en la ventana de tiempo configurada"
+    )
+    numero_casos_dia = models.IntegerField(
+        default=1,
+        verbose_name="Casos en el Día",
+        help_text="Casos detectados en las últimas 24 horas"
+    )
+    
+    # === FECHAS Y AUDITORÍA ===
+    fecha_generacion = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Fecha de Generación"
+    )
+    fecha_ultima_actualizacion = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Última Actualización"
+    )
+    fecha_resolucion = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Fecha de Resolución"
+    )
+    
+    # === USUARIOS NOTIFICADOS ===
+    usuarios_notificados = models.ManyToManyField(
+        User,
+        related_name='alertas_recibidas',
+        blank=True,
+        verbose_name="Usuarios Notificados",
+        help_text="Usuarios que han sido notificados de esta alerta"
+    )
+    
+    # === GESTIÓN DE LA ALERTA ===
+    observaciones = models.TextField(
+        blank=True,
+        verbose_name="Observaciones",
+        help_text="Notas sobre el manejo de la alerta"
+    )
+    resuelto_por = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name='alertas_resueltas',
+        verbose_name="Resuelto por"
+    )
+    
+    class Meta:
+        verbose_name = 'Alerta Epidemiológica'
+        verbose_name_plural = 'Alertas Epidemiológicas'
+        ordering = ['-fecha_generacion']
+        indexes = [
+            models.Index(fields=['estado', '-fecha_generacion']),
+            models.Index(fields=['nivel', 'estado']),
+            models.Index(fields=['centro_atencion', '-fecha_generacion']),
+            models.Index(fields=['region', '-fecha_generacion']),
+        ]
+    
+    def __str__(self):
+        return f"{self.get_nivel_display()} - {self.configuracion.parasito_nombre} - {self.centro_atencion.nombre}"
+    
+    @property
+    def dias_activa(self):
+        """Calcula cuántos días lleva activa la alerta"""
+        from datetime import datetime
+        if self.estado == 'RESUELTA':
+            if self.fecha_resolucion:
+                delta = self.fecha_resolucion - self.fecha_generacion
+            else:
+                return 0
+        else:
+            delta = datetime.now() - self.fecha_generacion.replace(tzinfo=None)
+        return delta.days
+    
+    @property
+    def requiere_escalamiento(self):
+        """
+        Determina si la alerta debe escalar al siguiente nivel.
+        Se activa si hay múltiples casos en el mismo día.
+        """
+        if self.numero_casos_dia >= 3:
+            return True
+        return False
+    
+    def marcar_como_resuelta(self, usuario, observaciones=""):
+        """Marca la alerta como resuelta"""
+        from datetime import datetime
+        self.estado = 'RESUELTA'
+        self.fecha_resolucion = datetime.now()
+        self.resuelto_por = usuario
+        if observaciones:
+            self.observaciones = observaciones
+        self.save()
+    
+    def actualizar_contador_casos(self):
+        """
+        Actualiza el número de casos en la ventana de tiempo.
+        Se llama cuando se registra una nueva muestra del mismo parásito.
+        """
+        from datetime import timedelta
+        
+        config = self.configuracion
+        fecha_inicio = self.muestra_origen.fecha_examen - timedelta(days=config.ventana_tiempo_dias)
+        
+        # Contar casos en ventana de tiempo
+        casos_ventana = Muestra.objects.filter(
+            centro_atencion=self.centro_atencion,
+            fecha_examen__gte=fecha_inicio,
+            fecha_examen__lte=self.muestra_origen.fecha_examen,
+            resultado='POS',
+            **{f'{config.parasito_campo}__isnull': False}
+        ).exclude(**{config.parasito_campo: ''}).count()
+        
+        # Contar casos en el día
+        casos_dia = Muestra.objects.filter(
+            centro_atencion=self.centro_atencion,
+            fecha_examen=self.muestra_origen.fecha_examen,
+            resultado='POS',
+            **{f'{config.parasito_campo}__isnull': False}
+        ).exclude(**{config.parasito_campo: ''}).count()
+        
+        self.numero_casos = casos_ventana
+        self.numero_casos_dia = casos_dia
+        
+        # Recalcular nivel si es necesario
+        if casos_ventana >= config.umbral_emergencia:
+            self.nivel = 'ROJO'
+        elif casos_ventana >= config.umbral_alerta:
+            self.nivel = 'NARANJA'
+        elif casos_ventana >= config.umbral_precaucion:
+            self.nivel = 'AMARILLO'
+        
+        self.save()
