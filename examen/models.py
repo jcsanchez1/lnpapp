@@ -1072,7 +1072,7 @@ def save(self, *args, **kwargs):
     
     super().save(*args, **kwargs)
     
-    def to_export_json(self):
+def to_export_json(self):
         """
         Genera un JSON completo con todos los datos de la muestra.
         Útil para exports, PowerBI, y reportes.
